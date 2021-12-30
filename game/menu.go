@@ -3,7 +3,7 @@ package game
 import (
 	"fmt"
 
-	"github.com/phxenix-w/placeholder-name/utils"
+	"github.com/phxenix-w/gotestgame/utils"
 )
 
 //the main menu for the game

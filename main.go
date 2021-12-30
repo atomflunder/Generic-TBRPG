@@ -1,6 +1,6 @@
 package main
 
-import "github.com/phxenix-w/placeholder-name/game"
+import "github.com/phxenix-w/gotestgame/game"
 
 func main() {
 	for {

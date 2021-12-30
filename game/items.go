@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/phxenix-w/placeholder-name/utils"
+	"github.com/phxenix-w/gotestgame/utils"
 )
 
 type Item struct {

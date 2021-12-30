@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/phxenix-w/placeholder-name/utils"
+	"github.com/phxenix-w/gotestgame/utils"
 )
 
 //the main combat loop

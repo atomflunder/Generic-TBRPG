@@ -1,3 +1,3 @@
-module github.com/phxenix-w/placeholder-name
+module github.com/phxenix-w/gotestgame
 
 go 1.17

@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/phxenix-w/placeholder-name/utils"
+	"github.com/phxenix-w/gotestgame/utils"
 )
 
 type Character struct {
