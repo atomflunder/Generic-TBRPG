@@ -7,6 +7,8 @@ type Weapon struct {
 	LowAttack   int
 	HighAttack  int
 	AttackSpeed float32
+	CritChance  float32
+	Accuracy    int
 	Range       int
 	ReqStr      int
 	ReqDex      int
@@ -20,6 +22,8 @@ var RustyClub = Weapon{
 	LowAttack:   15,
 	HighAttack:  40,
 	AttackSpeed: 1.2,
+	CritChance:  5.0,
+	Accuracy:    95,
 	Range:       10,
 	ReqStr:      15,
 	ReqDex:      5,
@@ -33,6 +37,8 @@ var RustyDagger = Weapon{
 	LowAttack:   5,
 	HighAttack:  30,
 	AttackSpeed: 1.7,
+	CritChance:  15.0,
+	Accuracy:    85,
 	Range:       6,
 	ReqStr:      5,
 	ReqDex:      10,
@@ -46,6 +52,8 @@ var RustyStaff = Weapon{
 	LowAttack:   10,
 	HighAttack:  35,
 	AttackSpeed: 1.4,
+	CritChance:  6.0,
+	Accuracy:    95,
 	Range:       14,
 	ReqStr:      5,
 	ReqDex:      5,
