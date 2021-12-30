@@ -1,0 +1,5 @@
+# Ignore everything in this directory, except this file.
+*
+!.gitignore
+# I'm doing this so the directory shows up, but the profiles themselves not.
+# So if you clone the repo, you will not get a directory not found error.
