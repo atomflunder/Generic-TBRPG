@@ -15,6 +15,7 @@ type Monster struct {
 	HighAttack     int
 	AttackSpeed    float32
 	CritChance     float32
+	Accuracy       int
 	Range          int
 	XP_Min         int
 	XP_Max         int
@@ -33,6 +34,7 @@ var Zombie = Monster{
 	HighAttack:     15,
 	AttackSpeed:    0.5,
 	CritChance:     3.0,
+	Accuracy:       80,
 	Range:          5,
 	XP_Min:         10,
 	XP_Max:         15,
@@ -51,6 +53,7 @@ var Skeleton = Monster{
 	HighAttack:     20,
 	AttackSpeed:    1.0,
 	CritChance:     8.5,
+	Accuracy:       90,
 	Range:          6,
 	XP_Min:         20,
 	XP_Max:         25,
@@ -69,6 +72,7 @@ var Dwarf = Monster{
 	HighAttack:     45,
 	AttackSpeed:    1.5,
 	CritChance:     12.5,
+	Accuracy:       99,
 	Range:          3,
 	XP_Min:         10,
 	XP_Max:         15,

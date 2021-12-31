@@ -208,8 +208,8 @@ func HealingItem(c *Character, i Item) {
 func DamageItem(c *Character, e *Monster, i Item) {
 	switch i {
 	case SmallBomb:
-		ApplyDamageToEnemy(20, e)
+		ApplyItemDamageToEnemy(20, e, i)
 	case LargeBomb:
-		ApplyDamageToEnemy(50, e)
+		ApplyItemDamageToEnemy(50, e, i)
 	}
 }
