@@ -22,7 +22,8 @@ func MainMenu() {
 		if c == nil {
 			fmt.Println("Invalid input. Please try again.")
 		} else {
-			Combat(c, &Zombie)
+			m := PickRandomMonster(AllMonsters)
+			Combat(c, &m)
 		}
 	case "2":
 		c := CharacterChoice()

@@ -10,6 +10,8 @@ import (
 func Combat(p *Character, e *Monster) {
 	RefreshMonsterHP(e)
 
+	fmt.Println("You encounter a " + e.Name + "!")
+
 	for p.Current_HP != 0 && e.Current_HP != 0 {
 		if p.Weapon.Range > e.Range {
 			PlayerTurn(p, e)
