@@ -164,8 +164,9 @@ func GetItemsByRarity(r Rarity) []Item {
 	return itemList
 }
 
+//picks a random item from the list of items
 func PickRandomItem(il []Item) Item {
-	utils.NewRandomSeed()
+	utils.GetNewRandomSeed()
 	n := rand.Intn(len(il))
 	return il[n]
 }
