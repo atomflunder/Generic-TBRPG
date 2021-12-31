@@ -2,8 +2,6 @@ package game
 
 import (
 	"fmt"
-	"math/rand"
-	"time"
 
 	"github.com/phxenix-w/gotestgame/utils"
 )
@@ -30,6 +28,11 @@ func Combat(p *Character, e *Monster) {
 	if p.Current_HP > 0 && e.Current_HP == 0 {
 		xp := GainXP(p, e)
 		fmt.Println("Congratulations, you won the fight. You gain " + fmt.Sprint(xp) + " XP")
+		i := CalculateItemDrops(e)
+		if len(i) != 0 {
+			AddItems(p, i)
+			fmt.Println("Congratulations, the monster you killed dropped these items: " + PrintItems(i))
+		}
 		UpdateLevel(p)
 		SaveCharacter(p)
 	} else if e.Current_HP > 0 && p.Current_HP == 0 {
@@ -75,8 +78,7 @@ func EnemyTurn(e *Monster, p *Character) {
 
 //rolls the damage
 func RollDamage(min int, max int) int {
-	rand.Seed(time.Now().UnixNano())
-	return rand.Intn(max-min) + min
+	return utils.GetRandomNumberInRange(min, max)
 }
 
 //applies the damage to the player
@@ -108,9 +110,7 @@ func HealPlayer(d int, c *Character) {
 
 //applies the xp gains to the player
 func GainXP(p *Character, e *Monster) int {
-	rand.Seed(time.Now().UnixNano())
-	t := e.XP_Max - e.XP_Min
-	n := rand.Intn(t) + e.XP_Min
+	n := utils.GetRandomNumberInRange(e.XP_Min, e.XP_Max)
 	p.XP += n
 	return n
 }

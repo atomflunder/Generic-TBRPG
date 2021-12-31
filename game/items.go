@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
 
 	"github.com/phxenix-w/gotestgame/utils"
@@ -11,35 +12,96 @@ type Item struct {
 	Name        string
 	Description string
 	Tag         string
+	Rarity      Rarity
 }
+
+type Rarity struct {
+	Common    float32
+	Uncommon  float32
+	Rare      float32
+	Epic      float32
+	Legendary float32
+}
+
+var (
+	rarityCommon    = Rarity{1, 0, 0, 0, 0}
+	rarityUncommon  = Rarity{0, 1, 0, 0, 0}
+	rarityRare      = Rarity{0, 0, 1, 0, 0}
+	rarityEpic      = Rarity{0, 0, 0, 1, 0}
+	rarityLegendary = Rarity{0, 0, 0, 0, 1}
+)
 
 var SmallHealingPotion = Item{
 	Name:        "Small Healing Potion",
 	Description: "Heals you for 20 HP",
 	Tag:         "Heal",
+	Rarity:      rarityCommon,
 }
 
 var LargeHealingPotion = Item{
 	Name:        "Large Healing Potion",
 	Description: "Heals you for 50 HP",
 	Tag:         "Heal",
+	Rarity:      rarityUncommon,
 }
 
 var SmallBomb = Item{
 	Name:        "Small Bomb",
 	Description: "Damages your enemy for 20 HP",
 	Tag:         "Damage",
+	Rarity:      rarityCommon,
 }
 
 var LargeBomb = Item{
 	Name:        "Large Bomb",
 	Description: "Damages your enemy for 50 HP",
 	Tag:         "Damage",
+	Rarity:      rarityUncommon,
+}
+
+var AllItems = []Item{SmallHealingPotion, LargeHealingPotion, SmallBomb, LargeBomb}
+
+func CalculateItemDrops(m *Monster) []Item {
+	var itemList []Item
+
+	n := utils.GetRandomNumber(100)
+
+	if float32(n) <= m.Item_Drops.Common {
+		i := PickRandomItem(GetItemsByRarity(rarityCommon))
+		itemList = append(itemList, i)
+	}
+
+	if float32(n) <= m.Item_Drops.Uncommon {
+		i := PickRandomItem(GetItemsByRarity(rarityUncommon))
+		itemList = append(itemList, i)
+	}
+
+	if float32(n) <= m.Item_Drops.Rare {
+		i := PickRandomItem(GetItemsByRarity(rarityRare))
+		itemList = append(itemList, i)
+	}
+
+	if float32(n) <= m.Item_Drops.Epic {
+		i := PickRandomItem(GetItemsByRarity(rarityEpic))
+		itemList = append(itemList, i)
+	}
+
+	if float32(n) <= m.Item_Drops.Legendary {
+		i := PickRandomItem(GetItemsByRarity(rarityLegendary))
+		itemList = append(itemList, i)
+	}
+
+	return itemList
 }
 
 //adds an item to your character
 func AddItem(c *Character, i Item) {
 	c.Items = append(c.Items, i)
+}
+
+//adds multiple items to your character
+func AddItems(c *Character, il []Item) {
+	c.Items = append(c.Items, il...)
 }
 
 //gets the item index, for deletion
@@ -88,6 +150,24 @@ func RemoveItem(c *Character, i Item) {
 func GetAllItems(c *Character) []Item {
 	var itemList []Item
 	return append(itemList, c.Items...)
+}
+
+//gets you every item by the specified rarity
+func GetItemsByRarity(r Rarity) []Item {
+	var itemList []Item
+
+	for _, i := range AllItems {
+		if i.Rarity == r {
+			itemList = append(itemList, i)
+		}
+	}
+	return itemList
+}
+
+func PickRandomItem(il []Item) Item {
+	utils.NewRandomSeed()
+	n := rand.Intn(len(il))
+	return il[n]
 }
 
 //prints them out in a nice format

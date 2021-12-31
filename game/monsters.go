@@ -12,6 +12,7 @@ type Monster struct {
 	Range       int
 	XP_Min      int
 	XP_Max      int
+	Item_Drops  Rarity
 }
 
 var Zombie = Monster{
@@ -24,6 +25,7 @@ var Zombie = Monster{
 	Range:       5,
 	XP_Min:      10,
 	XP_Max:      15,
+	Item_Drops:  Rarity{25, 5, 0, 0, 0},
 }
 
 //refreshes the max hp of a monster, basically spawning a new one
