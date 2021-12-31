@@ -3,7 +3,7 @@ package game
 type Weapon struct {
 	Name        string
 	Description string
-	Rarity      string
+	Rarity      Rarity
 	LowAttack   int
 	HighAttack  int
 	AttackSpeed float32
@@ -18,7 +18,7 @@ type Weapon struct {
 var RustyClub = Weapon{
 	Name:        "Rusty Club",
 	Description: "Starter Weapon for the Barbarian.",
-	Rarity:      "Common",
+	Rarity:      rarityCommon,
 	LowAttack:   15,
 	HighAttack:  40,
 	AttackSpeed: 1.2,
@@ -33,7 +33,7 @@ var RustyClub = Weapon{
 var RustyDagger = Weapon{
 	Name:        "Rusty Dagger",
 	Description: "Starter Weapon for the Rogue",
-	Rarity:      "Common",
+	Rarity:      rarityCommon,
 	LowAttack:   5,
 	HighAttack:  30,
 	AttackSpeed: 1.7,
@@ -48,7 +48,7 @@ var RustyDagger = Weapon{
 var RustyStaff = Weapon{
 	Name:        "Rusty Staff",
 	Description: "Starter Weapon for the Mage",
-	Rarity:      "Common",
+	Rarity:      rarityCommon,
 	LowAttack:   10,
 	HighAttack:  35,
 	AttackSpeed: 1.4,
