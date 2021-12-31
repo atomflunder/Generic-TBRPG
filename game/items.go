@@ -59,7 +59,9 @@ var LargeBomb = Item{
 	Rarity:      rarityUncommon,
 }
 
-var AllItems = []Item{SmallHealingPotion, LargeHealingPotion, SmallBomb, LargeBomb}
+var AllItems = []Item{
+	SmallHealingPotion, LargeHealingPotion, SmallBomb, LargeBomb,
+}
 
 func CalculateItemDrops(m *Monster) []Item {
 	var itemList []Item
