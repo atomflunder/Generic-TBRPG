@@ -13,7 +13,7 @@ func Combat(p *Character, e *Monster) {
 	fmt.Println("You encounter a " + e.Name + "!")
 
 	for p.Current_HP != 0 && e.Current_HP != 0 {
-		if p.Weapon.Range > e.Range {
+		if p.Weapon.Range >= e.Range {
 			PlayerTurn(p, e)
 			if e.Current_HP == 0 {
 				break
@@ -30,11 +30,7 @@ func Combat(p *Character, e *Monster) {
 	if p.Current_HP > 0 && e.Current_HP == 0 {
 		xp := GainXP(p, e)
 		fmt.Println("Congratulations, you won the fight. You gain " + fmt.Sprint(xp) + " XP")
-		i := CalculateItemDrops(e)
-		if len(i) != 0 {
-			AddItems(p, i)
-			fmt.Println("Congratulations, the monster you killed dropped these items: " + PrintItems(i))
-		}
+		GetMonsterLoot(e, p)
 		UpdateLevel(p)
 		SaveCharacter(p)
 	} else if e.Current_HP > 0 && p.Current_HP == 0 {
@@ -81,7 +77,7 @@ func RollDamagePlayer(c *Character, m *Monster) {
 	n := utils.GetRandomNumber(10000)
 	cr := c.Weapon.CritChance * 100
 
-	if n < int(cr) {
+	if n <= int(cr) {
 		d := c.Weapon.HighAttack * 2
 		ApplyDamageToEnemy(d, m)
 		fmt.Println("Critical hit!! You attacked for " + fmt.Sprint(d) + " damage. The enemy has " + fmt.Sprint(m.Current_HP) + " HP left.")
@@ -89,7 +85,7 @@ func RollDamagePlayer(c *Character, m *Monster) {
 		an := utils.GetRandomNumber(100)
 		ac := c.Weapon.Accuracy
 
-		if an < ac {
+		if an <= ac {
 			d := utils.GetRandomNumberInRange(c.Weapon.LowAttack, c.Weapon.HighAttack)
 			ApplyDamageToEnemy(d, m)
 			fmt.Println("You attacked for " + fmt.Sprint(d) + " damage. The enemy has " + fmt.Sprint(m.Current_HP) + " HP left.")
@@ -106,7 +102,7 @@ func RollDamageMonster(m *Monster, c *Character) {
 	n := utils.GetRandomNumber(10000)
 	cr := m.CritChance * 100
 
-	if n < int(cr) {
+	if n <= int(cr) {
 		d := m.HighAttack * 2
 		ApplyDamageToPlayer(d, c)
 		fmt.Println("Critical hit!! The enemy attacked you for " + fmt.Sprint(d) + " damage. You have " + fmt.Sprint(c.Current_HP) + " HP left")
@@ -114,7 +110,7 @@ func RollDamageMonster(m *Monster, c *Character) {
 		an := utils.GetRandomNumber(100)
 		ac := m.Accuracy
 
-		if an < ac {
+		if an <= ac {
 			d := utils.GetRandomNumberInRange(m.LowAttack, m.HighAttack)
 			ApplyDamageToPlayer(d, c)
 			fmt.Println("The enemy attacked you for " + fmt.Sprint(d) + " damage. You have " + fmt.Sprint(c.Current_HP) + " HP left")
@@ -143,10 +139,7 @@ func ApplyDamageToEnemy(d int, m *Monster) {
 
 //applies the damage from an item to the enemy
 func ApplyItemDamageToEnemy(d int, m *Monster, i Item) {
-	m.Current_HP -= d
-	if m.Current_HP < 0 {
-		m.Current_HP = 0
-	}
+	ApplyDamageToEnemy(d, m)
 	fmt.Println("You throw a " + i.Name + " at the " + m.Name + ". It deals " + fmt.Sprint(d) + " damage. The enemy has " + fmt.Sprint(m.Current_HP) + " HP left.")
 }
 
@@ -164,4 +157,18 @@ func GainXP(p *Character, e *Monster) int {
 	n := utils.GetRandomNumberInRange(e.XP_Min, e.XP_Max)
 	p.XP += n
 	return n
+}
+
+//calculates the loot the monster drops
+func GetMonsterLoot(m *Monster, c *Character) {
+	i := CalculateItemDrops(m)
+	if len(i) != 0 {
+		AddItems(c, i)
+		fmt.Println("Congratulations, the monster you killed dropped these items: " + PrintItems(i) + ". They have been automatically picked up.")
+	}
+	w := CalculateWeaponDrops(m)
+	if len(w) != 0 {
+		fmt.Println("Congratulations, the monster you killed dropped these weapons: " + PrintWeapons(w))
+		SwitchWeapon(c, w)
+	}
 }
