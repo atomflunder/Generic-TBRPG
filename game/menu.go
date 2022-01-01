@@ -12,44 +12,47 @@ func MainMenu() {
 1) Fight with saved character
 2) Enter shop with saved character
 3) View Character
-4) Create a new character
-5) Delete a character
+4) Switch character
+5) Create a new character
+6) Delete a character
 ...
 9) Exit Game`)
 
 	switch utils.GetUserInput() {
 	case "1":
-		c := CharacterChoice()
+		c := GetDefaultCharacter(GetAllCharacters())
 		if c == nil {
-			fmt.Println("Invalid input. Please try again.")
+			fmt.Println("You have no characters saved. Please create one first.")
 		} else {
 			m := PickRandomMonster(AllMonsters)
 			Combat(c, &m)
 		}
 	case "2":
-		c := CharacterChoice()
+		c := GetDefaultCharacter(GetAllCharacters())
 		if c == nil {
-			fmt.Println("Invalid input. Please try again.")
+			fmt.Println("You have no characters saved. Please create one first.")
 		} else {
 			ShopMenu(c)
 		}
 	case "3":
-		c := CharacterChoice()
+		c := GetDefaultCharacter(GetAllCharacters())
 		if c == nil {
-			fmt.Println("Invalid input. Please try again.")
+			fmt.Println("You have no characters saved. Please create one first.")
 		} else {
 			fmt.Println(CharacterInfo(c))
 		}
 
 	case "4":
+		SwitchCharacter(GetAllCharacters())
+	case "5":
 		c := CreateNewCharacter()
 		fmt.Println(CharacterInfo(c))
 		SaveCharacter(c)
-	case "5":
+	case "6":
 		fmt.Println("Which character do you want to delete?")
 		cl := CharacterListToString(GetAllCharacters())
 		if len(cl) == 0 {
-			fmt.Println("No characters found.")
+			fmt.Println("You have no characters saved. Please create one first.")
 		} else {
 			fmt.Println(cl)
 			DeleteCharacter(utils.GetUserInput())

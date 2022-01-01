@@ -13,6 +13,8 @@ import (
 
 type Character struct {
 	Name         string `json:"name"`
+	Hardcore     bool   `json:"hardcore"`
+	Default      bool   `json:"default"`
 	Level        int    `json:"level"`
 	XP           int    `json:"xp"`
 	Class        string `json:"class"`
@@ -39,6 +41,7 @@ Please enter the name of your new character!`)
 	c.XP = 1
 	c.Gold = 0
 	AddItem(c, SmallHealingPotion)
+	c.Hardcore = true
 
 	for c.Class == "" {
 		fmt.Println(`Which class do you want to start with?
@@ -76,6 +79,8 @@ Please enter the name of your new character!`)
 
 		}
 	}
+	SwitchAllCharactersOff(GetAllCharacters())
+	c.Default = true
 	SaveCharacter(c)
 
 	return c
@@ -171,6 +176,35 @@ func CharacterChoice() *Character {
 		fmt.Println("Please enter the name of your character.")
 		c := SearchCharacter(utils.GetUserInput(), GetAllCharacters())
 		return c
+	}
+}
+
+//gets the character with the default flag enabled
+func GetDefaultCharacter(cl []Character) *Character {
+	for _, c := range cl {
+		if c.Default {
+			return &c
+		}
+	}
+	return nil
+}
+
+//switches your current active character
+func SwitchCharacter(cl []Character) {
+	SwitchAllCharactersOff(cl)
+
+	c := CharacterChoice()
+	c.Default = true
+	SaveCharacter(c)
+
+	fmt.Println("Set " + c.Name + " to your default character.")
+}
+
+//if you create a new character, it will have the default flag enabled, so we need to disable it for everyone else
+func SwitchAllCharactersOff(cl []Character) {
+	for _, c := range cl {
+		c.Default = false
+		SaveCharacter(&c)
 	}
 }
 
