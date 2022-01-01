@@ -231,6 +231,19 @@ func SwitchAllCharactersOff(cl []Character) {
 	}
 }
 
+//what happens when a character dies
+func CharacterDeath(c *Character) {
+	if c.Hardcore {
+		fmt.Println("Since your character was in the hardcore league, it will now be deleted.\n\nCharacter Stats: \n" + CharacterInfo(c) + "\n\nRest in peace.")
+		DeleteFile(c.Name)
+	} else {
+		xp := ApplyXPPenalty(c)
+		fmt.Println("Your character loses " + fmt.Sprint(xp) + " XP.")
+		c.Current_HP = c.Max_HP / 2
+		SaveCharacter(c)
+	}
+}
+
 //asks the user about character deletion
 func DeleteCharacter() {
 	fmt.Println("Which character do you want to delete?")

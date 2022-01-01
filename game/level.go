@@ -33,7 +33,7 @@ func CheckLevel(c *Character) int {
 	var charLevel int
 
 	for _, y := range AllLevels {
-		if c.XP > y {
+		if c.XP >= y {
 			charLevel += 1
 		}
 	}
@@ -69,4 +69,25 @@ func LevelUp(c *Character) {
 		c.Dexterity += 5
 		c.Intelligence += 10
 	}
+}
+
+//gets a 10% xp penalty of the current level, down to the minimum. returns the lost xp
+func ApplyXPPenalty(c *Character) int {
+	l := CheckLevel(c)
+	min := AllLevels[l-1]
+
+	levelRange := AllLevels[l] - AllLevels[l-1]
+	penalty := levelRange / 10
+
+	var lostXP int
+
+	if (c.XP - penalty) <= min {
+		lostXP = c.XP - min
+		c.XP = min
+	} else {
+		lostXP = penalty
+		c.XP -= penalty
+	}
+	return lostXP
+
 }

@@ -34,8 +34,8 @@ func Combat(p *Character, e *Monster) {
 		UpdateLevel(p)
 		SaveCharacter(p)
 	} else if e.Current_HP > 0 && p.Current_HP == 0 {
-		fmt.Println("You lost the fight against " + e.Name + ". It has " + fmt.Sprint(e.Current_HP) + " left. Your character will be deleted.")
-		DeleteFile(p.Name)
+		fmt.Println("You lost the fight against " + e.Name + ". It has " + fmt.Sprint(e.Current_HP) + " left.")
+		CharacterDeath(p)
 	}
 }
 
