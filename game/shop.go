@@ -38,12 +38,14 @@ func BuyItem(c *Character) {
 	i := MatchItemIndex(utils.StringToInt(utils.GetUserInput()), AllItems)
 	if i != nil {
 		if CanCharacterBuyItem(c, *i) {
-			fmt.Println("Your current balance: " + fmt.Sprint(c.Gold) + "\nDo you want to buy a " + i.Name + " for " + fmt.Sprint(i.BuyPrice) + " gold? Type y to confirm, or anything else to dismiss.")
+			fmt.Println(`Your current balance: ` + fmt.Sprint(c.Gold) + `
+Do you want to buy a ` + i.Name + ` (` + i.Description + `) for ` + fmt.Sprint(i.BuyPrice) + ` gold?
+Type y to confirm, or anything else to dismiss`)
+
 			if strings.ToLower(utils.GetUserInput()) == "y" {
 				AddItem(c, *i)
 				c.Gold -= i.BuyPrice
 				fmt.Println("You have bought a " + i.Name + " for " + fmt.Sprint(i.BuyPrice) + " gold. You have " + fmt.Sprint(c.Gold) + " gold left.")
-				SaveCharacter(c)
 			} else {
 				ShopMenu(c)
 			}
@@ -55,21 +57,64 @@ func BuyItem(c *Character) {
 	} else {
 		fmt.Println("Invalid input. Please try again.")
 	}
+	SaveCharacter(c)
 }
 
 //sells an item from your inventory
 func SellItem(c *Character) {
+	fmt.Println("What item do you want to sell? \n" + PrintItems(GetAllItems(c)) + "\n\nType the number of the item you want to sell.")
+	i := MatchItemIndex(utils.StringToInt(utils.GetUserInput()), GetAllItems(c))
+	if i != nil {
+		fmt.Println(`Your current balance: ` + fmt.Sprint(c.Gold) + `
+Do you want to sell your ` + i.Name + ` (` + i.Description + `) for ` + fmt.Sprint(i.SellPrice) + ` gold?
+Type y to confirm, or anything else to dismiss`)
 
+		if strings.ToLower(utils.GetUserInput()) == "y" {
+			RemoveItem(c, *i)
+			c.Gold += i.SellPrice
+			fmt.Println("You have sold a " + i.Name + " for " + fmt.Sprint(i.SellPrice) + " gold. You now have " + fmt.Sprint(c.Gold) + " gold.")
+		} else {
+			ShopMenu(c)
+		}
+
+	} else {
+		fmt.Println("Invalid input. Please try again.")
+	}
+
+	SaveCharacter(c)
 }
 
 //buys a weapon, then asks you to swap weapons
 func BuyWeapon(c *Character) {
+	fmt.Println("These are the weapons we have to offer. \n" + PrintWeapons(AllWeapons) + "\n\nType the number of the item you want to buy.")
+	w := MatchWeaponIndex(utils.StringToInt(utils.GetUserInput()), AllWeapons)
+	if w != nil {
+		fmt.Println(`Your current balance: ` + fmt.Sprint(c.Gold) + `
+Do you want to buy a this weapon for ` + fmt.Sprint(w.BuyPrice) + ` gold?
 
+Weapon details:
+` + PrintWeaponDetails(*w) + `
+
+Type y to confirm, or anything else to dismiss`)
+
+		if strings.ToLower(utils.GetUserInput()) == "y" {
+			c.Gold -= w.BuyPrice
+			fmt.Println("You bought a " + w.Name + " for " + fmt.Sprint(w.BuyPrice) + " gold. You have " + fmt.Sprint(c.Gold) + " gold left.")
+			SwitchSpecificWeapon(c, *w)
+		} else {
+			ShopMenu(c)
+		}
+	} else {
+		fmt.Println("Invalid input. Please try again.")
+	}
+
+	SaveCharacter(c)
 }
 
 //not yet implemented. you can only carry your current weapon so you cant really sell it yet.
-func SellWeapon() {
+func SellWeapon(c *Character) {
 
+	SaveCharacter(c)
 }
 
 //checks if the character has enough gold to buy an item

@@ -148,6 +148,27 @@ func SwitchWeapon(c *Character, wl []Weapon) {
 	}
 }
 
+//asks the player if they want to switch out their weapon for a specific one, used in the shop
+func SwitchSpecificWeapon(c *Character, w Weapon) {
+	fmt.Println("Do you want to switch your current weapon to this one? Type y to confirm, or anything else to dismiss.")
+	if strings.ToLower(utils.GetUserInput()) == "y" {
+		c.Weapon = w
+		fmt.Println("Switched your current weapon to " + w.Name + ". You leave behind your old one.")
+	}
+}
+
+func PrintWeaponDetails(w Weapon) string {
+	return `` + w.Name + `
+` + w.Description + `
+Damage: 		` + fmt.Sprint(w.LowAttack) + `-` + fmt.Sprint(w.HighAttack) + `
+Crit Chance: 		` + fmt.Sprint(w.CritChance) + `%
+Accuracy: 		` + fmt.Sprint(w.Accuracy) + `
+Range: 			` + fmt.Sprint(w.Range) + `
+Strength Required: 	` + fmt.Sprint(w.ReqStr) + `
+Dexterity Required: 	` + fmt.Sprint(w.ReqDex) + `
+Intelligence Required:	` + fmt.Sprint(w.ReqInt)
+}
+
 //matches the item index to the input
 func MatchWeaponIndex(p int, wl []Weapon) *Weapon {
 	for x := range wl {
