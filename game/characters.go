@@ -75,9 +75,25 @@ Please enter the name of your new character!`)
 			c.Intelligence = 25
 			c.Weapon = RustyStaff
 		default:
-			fmt.Println("Invalid input, please try again.")
+			fmt.Println("Invalid input. Please try again.")
 
 		}
+		o := 0
+		for o < 1 {
+			fmt.Println("Do you want to enable hardcore mode? (Permadeath)\ny/n?")
+			switch utils.GetUserInput() {
+			case "y":
+				c.Hardcore = true
+				o += 1
+			case "n":
+				c.Hardcore = false
+				o += 1
+
+			default:
+				fmt.Println("Invalid input. Please try again.")
+			}
+		}
+
 	}
 	SwitchAllCharactersOff(GetAllCharacters())
 	c.Default = true
@@ -107,7 +123,11 @@ Items: 			` + PrintItems(GetAllItems(c))
 func CharacterListToString(cl []Character) string {
 	var charList string
 	for _, c := range cl {
-		charList = charList + "Name: " + c.Name + "\n" + "Level: " + fmt.Sprint(c.Level) + "\n\n"
+		if c.Default {
+			charList = charList + "Name: " + c.Name + " (Currently active)\n" + "Level: " + fmt.Sprint(c.Level) + "\n\n"
+		} else {
+			charList = charList + "Name: " + c.Name + "\n" + "Level: " + fmt.Sprint(c.Level) + "\n\n"
+		}
 	}
 
 	return charList
@@ -179,21 +199,20 @@ func CharacterChoice() *Character {
 	}
 }
 
-//gets the character with the default flag enabled
+//gets the character with the default flag enabled. if it doesnt find one, it returns the first one saved
 func GetDefaultCharacter(cl []Character) *Character {
 	for _, c := range cl {
 		if c.Default {
 			return &c
 		}
 	}
-	return nil
+	return &cl[0]
 }
 
 //switches your current active character
 func SwitchCharacter(cl []Character) {
-	SwitchAllCharactersOff(cl)
-
 	c := CharacterChoice()
+	SwitchAllCharactersOff(cl)
 	c.Default = true
 	SaveCharacter(c)
 
@@ -208,8 +227,40 @@ func SwitchAllCharactersOff(cl []Character) {
 	}
 }
 
-//deletes a saved character
-func DeleteCharacter(s string) {
+//asks the user about character deletion
+func DeleteCharacter() {
+	fmt.Println("Which character do you want to delete?")
+	c := CharacterChoice()
+	if c != nil {
+		if c.Default {
+			fmt.Println("This is your default character! You cannot delete them, please switch to a different one first.")
+			return
+		} else {
+			o := 0
+			for o < 1 {
+				fmt.Println("Are you sure you want to delete " + c.Name + " (Level" + fmt.Sprint(c.Level) + ")? y/n")
+				switch utils.GetUserInput() {
+				case "y":
+					DeleteFile(c.Name)
+					fmt.Println("Successfully deleted character " + c.Name)
+					o += 1
+				case "n":
+					fmt.Println("Aborted deletion of character " + c.Name)
+					o += 1
+
+				default:
+					fmt.Println("Invalid input. Please try again.")
+				}
+
+			}
+
+		}
+
+	}
+}
+
+//deletes a savefile
+func DeleteFile(s string) {
 	err := os.Remove("./savedata/characters/" + s + ".json")
 	if err != nil {
 		log.Fatal(err)
