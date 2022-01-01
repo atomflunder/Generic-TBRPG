@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/phxenix-w/gotestgame/utils"
@@ -235,7 +234,7 @@ func SwitchAllCharactersOff(cl []Character) {
 func CharacterDeath(c *Character) {
 	if c.Hardcore {
 		fmt.Println("Since your character was in the hardcore league, it will now be deleted.\n\nCharacter Stats: \n" + CharacterInfo(c) + "\n\nRest in peace.")
-		DeleteFile(c.Name)
+		utils.DeleteFile(c.Name)
 	} else {
 		xp := ApplyXPPenalty(c)
 		fmt.Println("Your character loses " + fmt.Sprint(xp) + " XP.")
@@ -258,7 +257,7 @@ func DeleteCharacter() {
 				fmt.Println("Are you sure you want to delete " + c.Name + " (Level" + fmt.Sprint(c.Level) + ")? y/n")
 				switch utils.GetUserInput() {
 				case "y":
-					DeleteFile(c.Name)
+					utils.DeleteFile(c.Name)
 					fmt.Println("Successfully deleted character " + c.Name)
 					o += 1
 				case "n":
@@ -274,13 +273,4 @@ func DeleteCharacter() {
 		}
 
 	}
-}
-
-//deletes a savefile
-func DeleteFile(s string) {
-	err := os.Remove("./savedata/characters/" + s + ".json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Successfully deleted profile of " + s)
 }
