@@ -158,17 +158,3 @@ func GainXP(p *Character, e *Monster) int {
 	p.XP += n
 	return n
 }
-
-//calculates the loot the monster drops
-func GetMonsterLoot(m *Monster, c *Character) {
-	i := CalculateItemDrops(m)
-	if len(i) != 0 {
-		AddItems(c, i)
-		fmt.Println("Congratulations, the monster you killed dropped these items: " + PrintItems(i) + ". They have been automatically picked up.")
-	}
-	w := CalculateWeaponDrops(m)
-	if len(w) != 0 {
-		fmt.Println("Congratulations, the monster you killed dropped these weapons: " + PrintWeapons(w))
-		SwitchWeapon(c, w)
-	}
-}

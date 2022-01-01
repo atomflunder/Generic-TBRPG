@@ -87,40 +87,6 @@ var AllWeapons = []Weapon{
 	RustyClub, RustyDagger, RustyStaff, Broadsword,
 }
 
-//calculates the weapons that drop from a monster
-func CalculateWeaponDrops(m *Monster) []Weapon {
-	var weaponList []Weapon
-
-	n := utils.GetRandomNumber(100)
-
-	if float32(n) <= m.Weapon_Drops.Common {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityCommon))
-		weaponList = append(weaponList, w)
-	}
-
-	if float32(n) <= m.Weapon_Drops.Uncommon {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityUncommon))
-		weaponList = append(weaponList, w)
-	}
-
-	if float32(n) <= m.Weapon_Drops.Rare {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityRare))
-		weaponList = append(weaponList, w)
-	}
-
-	if float32(n) <= m.Weapon_Drops.Epic {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityEpic))
-		weaponList = append(weaponList, w)
-	}
-
-	if float32(n) <= m.Weapon_Drops.Legendary {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityLegendary))
-		weaponList = append(weaponList, w)
-	}
-
-	return weaponList
-}
-
 //picks a random weapon from the list
 func PickRandomWeapon(wl []Weapon) Weapon {
 	utils.GetNewRandomSeed()

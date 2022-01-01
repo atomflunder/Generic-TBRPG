@@ -63,39 +63,6 @@ var AllItems = []Item{
 	SmallHealingPotion, LargeHealingPotion, SmallBomb, LargeBomb,
 }
 
-func CalculateItemDrops(m *Monster) []Item {
-	var itemList []Item
-
-	n := utils.GetRandomNumber(100)
-
-	if float32(n) <= m.Item_Drops.Common {
-		i := PickRandomItem(GetItemsByRarity(rarityCommon))
-		itemList = append(itemList, i)
-	}
-
-	if float32(n) <= m.Item_Drops.Uncommon {
-		i := PickRandomItem(GetItemsByRarity(rarityUncommon))
-		itemList = append(itemList, i)
-	}
-
-	if float32(n) <= m.Item_Drops.Rare {
-		i := PickRandomItem(GetItemsByRarity(rarityRare))
-		itemList = append(itemList, i)
-	}
-
-	if float32(n) <= m.Item_Drops.Epic {
-		i := PickRandomItem(GetItemsByRarity(rarityEpic))
-		itemList = append(itemList, i)
-	}
-
-	if float32(n) <= m.Item_Drops.Legendary {
-		i := PickRandomItem(GetItemsByRarity(rarityLegendary))
-		itemList = append(itemList, i)
-	}
-
-	return itemList
-}
-
 //adds an item to your character
 func AddItem(c *Character, i Item) {
 	c.Items = append(c.Items, i)

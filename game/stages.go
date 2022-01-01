@@ -4,3 +4,4 @@ package game
 //TODO: Add weapon stat requirement check
 //TODO: Maybe add gold?
 //TODO: Add a way to save the last used character
+//TODO: Add a way to view weapon details

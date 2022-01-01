@@ -21,6 +21,7 @@ type Character struct {
 	Strength     int    `json:"str"`
 	Dexterity    int    `json:"dex"`
 	Intelligence int    `json:"int"`
+	Gold         int    `json:"gold"`
 	Weapon       Weapon `json:"weapon"`
 	Items        []Item `json:"items"`
 }
@@ -36,6 +37,7 @@ Please enter the name of your new character!`)
 
 	c.Level = 1
 	c.XP = 1
+	c.Gold = 0
 	AddItem(c, SmallHealingPotion)
 
 	for c.Class == "" {
@@ -91,6 +93,7 @@ Current HP: 		` + fmt.Sprint(c.Current_HP) + `
 Strength: 		` + fmt.Sprint(c.Strength) + `
 Dexterity: 		` + fmt.Sprint(c.Dexterity) + `
 Intelligence: 		` + fmt.Sprint(c.Intelligence) + `
+Gold: 			` + fmt.Sprint(c.Gold) + `
 Weapon: 		` + c.Weapon.Name + `
 Items: 			` + PrintItems(GetAllItems(c))
 }
