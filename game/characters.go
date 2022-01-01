@@ -206,7 +206,11 @@ func GetDefaultCharacter(cl []Character) *Character {
 			return &c
 		}
 	}
-	return &cl[0]
+	if len(cl) == 0 {
+		return nil
+	} else {
+		return &cl[0]
+	}
 }
 
 //switches your current active character
