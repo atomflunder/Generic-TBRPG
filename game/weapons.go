@@ -21,6 +21,8 @@ type Weapon struct {
 	ReqStr      int
 	ReqDex      int
 	ReqInt      int
+	BuyPrice    int
+	SellPrice   int
 }
 
 var RustyClub = Weapon{
@@ -36,6 +38,8 @@ var RustyClub = Weapon{
 	ReqStr:      15,
 	ReqDex:      5,
 	ReqInt:      0,
+	BuyPrice:    30,
+	SellPrice:   1,
 }
 
 var RustyDagger = Weapon{
@@ -51,6 +55,8 @@ var RustyDagger = Weapon{
 	ReqStr:      5,
 	ReqDex:      10,
 	ReqInt:      5,
+	BuyPrice:    30,
+	SellPrice:   1,
 }
 
 var RustyStaff = Weapon{
@@ -66,6 +72,8 @@ var RustyStaff = Weapon{
 	ReqStr:      5,
 	ReqDex:      5,
 	ReqInt:      10,
+	BuyPrice:    30,
+	SellPrice:   1,
 }
 
 var Broadsword = Weapon{
@@ -81,6 +89,8 @@ var Broadsword = Weapon{
 	ReqStr:      15,
 	ReqDex:      15,
 	ReqInt:      5,
+	BuyPrice:    350,
+	SellPrice:   50,
 }
 
 var AllWeapons = []Weapon{
@@ -118,8 +128,8 @@ func PrintWeapons(wl []Weapon) string {
 
 //asks the player if they want to switch out weapons
 func SwitchWeapon(c *Character, wl []Weapon) {
-	fmt.Println("Do you want to switch your current weapon to one of these dropped ones? **Type y for yes** or anything else for no.")
-	if utils.GetUserInput() == "y" {
+	fmt.Println("Do you want to switch your current weapon to one of these dropped ones? Type y to confirm, or anything else to dismiss.")
+	if strings.ToLower(utils.GetUserInput()) == "y" {
 		if len(wl) > 1 {
 			for {
 				fmt.Println("Which of these weapons do you wanna choose? Type their number.")

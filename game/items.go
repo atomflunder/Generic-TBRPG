@@ -13,6 +13,8 @@ type Item struct {
 	Description string
 	Tag         string
 	Rarity      Rarity
+	BuyPrice    int
+	SellPrice   int
 }
 
 type Rarity struct {
@@ -36,6 +38,8 @@ var SmallHealingPotion = Item{
 	Description: "Heals you for 20 HP",
 	Tag:         "Heal",
 	Rarity:      rarityCommon,
+	BuyPrice:    25,
+	SellPrice:   1,
 }
 
 var LargeHealingPotion = Item{
@@ -43,6 +47,8 @@ var LargeHealingPotion = Item{
 	Description: "Heals you for 50 HP",
 	Tag:         "Heal",
 	Rarity:      rarityUncommon,
+	BuyPrice:    120,
+	SellPrice:   20,
 }
 
 var SmallBomb = Item{
@@ -50,6 +56,8 @@ var SmallBomb = Item{
 	Description: "Damages your enemy for 20 HP",
 	Tag:         "Damage",
 	Rarity:      rarityCommon,
+	BuyPrice:    25,
+	SellPrice:   1,
 }
 
 var LargeBomb = Item{
@@ -57,6 +65,8 @@ var LargeBomb = Item{
 	Description: "Damages your enemy for 50 HP",
 	Tag:         "Damage",
 	Rarity:      rarityUncommon,
+	BuyPrice:    120,
+	SellPrice:   20,
 }
 
 var AllItems = []Item{
@@ -84,8 +94,7 @@ func GetItemIndex(c *Character, i Item) int {
 }
 
 //matches the item index to the input
-func MatchItemIndex(p int, c *Character) *Item {
-	il := GetAllItems(c)
+func MatchItemIndex(p int, il []Item) *Item {
 	for x := range il {
 		if x+1 == p {
 			return &il[x]
@@ -98,7 +107,7 @@ func MatchItemIndex(p int, c *Character) *Item {
 func ItemChoice(p *Character, e *Monster) {
 	for {
 		fmt.Println(PrintItems(GetAllItems(p)) + "\nWhich item do you want to use?")
-		i := MatchItemIndex(utils.StringToInt(utils.GetUserInput()), p)
+		i := MatchItemIndex(utils.StringToInt(utils.GetUserInput()), GetAllItems(p))
 		if i != nil {
 			UseItem(p, e, *i)
 			break
@@ -163,20 +172,20 @@ func UseItem(c *Character, e *Monster, i Item) {
 
 //the logic for healing items
 func HealingItem(c *Character, i Item) {
-	switch i {
-	case SmallHealingPotion:
+	switch i.Name {
+	case "Small Healing Potion":
 		HealPlayer(20, c)
-	case LargeHealingPotion:
+	case "Large Healing Potion":
 		HealPlayer(50, c)
 	}
 }
 
 //the logic for damage items
 func DamageItem(c *Character, e *Monster, i Item) {
-	switch i {
-	case SmallBomb:
+	switch i.Name {
+	case "Small Bomb":
 		ApplyItemDamageToEnemy(20, e, i)
-	case LargeBomb:
+	case "Large Bomb":
 		ApplyItemDamageToEnemy(50, e, i)
 	}
 }
