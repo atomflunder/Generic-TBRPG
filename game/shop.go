@@ -101,7 +101,7 @@ Type y to confirm, or anything else to dismiss`)
 			if strings.ToLower(utils.GetUserInput()) == "y" {
 				c.Gold -= w.BuyPrice
 				fmt.Println("You bought a " + w.Name + " for " + fmt.Sprint(w.BuyPrice) + " gold. You have " + fmt.Sprint(c.Gold) + " gold left.")
-				SwitchSpecificWeapon(c, *w)
+				w.Switch(c)
 			} else {
 				ShopMenu(c)
 			}

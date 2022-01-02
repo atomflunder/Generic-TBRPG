@@ -127,7 +127,7 @@ func PrintWeapons(wl []Weapon) string {
 }
 
 //asks the player if they want to switch out weapons
-func SwitchWeapon(c *Character, wl []Weapon) {
+func SwitchWeaponFromList(c *Character, wl []Weapon) {
 	fmt.Println("Do you want to switch your current weapon to one of these dropped ones? Type y to confirm, or anything else to dismiss.")
 	if strings.ToLower(utils.GetUserInput()) == "y" {
 		if len(wl) > 1 {
@@ -149,7 +149,7 @@ func SwitchWeapon(c *Character, wl []Weapon) {
 }
 
 //asks the player if they want to switch out their weapon for a specific one, used in the shop
-func SwitchSpecificWeapon(c *Character, w Weapon) {
+func (w Weapon) Switch(c *Character) {
 	fmt.Println("Do you want to switch your current weapon to this one? Type y to confirm, or anything else to dismiss.")
 	if strings.ToLower(utils.GetUserInput()) == "y" {
 		c.Weapon = w

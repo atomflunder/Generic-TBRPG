@@ -20,7 +20,7 @@ func GetMonsterLoot(m *Monster, c *Character) {
 	w := CalculateWeaponDrops(m)
 	if len(w) != 0 {
 		fmt.Println("Congratulations, the monster you killed dropped these weapons: " + PrintWeapons(w))
-		SwitchWeapon(c, w)
+		SwitchWeaponFromList(c, w)
 	}
 }
 
