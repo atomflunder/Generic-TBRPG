@@ -153,11 +153,17 @@ func (m *Monster) ApplyItemDamage(d int, i Item) {
 
 //heals the player for the amount specified
 func (c *Character) Heal(d int) {
-	c.Current_HP += d
-	if c.Current_HP >= c.Max_HP {
+	if d == -1 {
 		c.Current_HP = c.Max_HP
+		fmt.Println("You have healed your HP fully. Your HP is now " + fmt.Sprint(c.Current_HP))
+	} else {
+		c.Current_HP += d
+		if c.Current_HP >= c.Max_HP {
+			c.Current_HP = c.Max_HP
+		}
+		fmt.Println("You have healed for " + fmt.Sprint(d) + " HP. Your HP is now " + fmt.Sprint(c.Current_HP))
 	}
-	fmt.Println("You have healed for " + fmt.Sprint(d) + " HP. Your HP is now " + fmt.Sprint(c.Current_HP))
+
 }
 
 //applies the xp gains to the player

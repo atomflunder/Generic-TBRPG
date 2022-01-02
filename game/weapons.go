@@ -93,8 +93,25 @@ var Broadsword = Weapon{
 	SellPrice:   50,
 }
 
+var Spear = Weapon{
+	Name:        "Spear",
+	Description: "Long range spear, great for poking people",
+	Rarity:      rarityUncommon,
+	LowAttack:   35,
+	HighAttack:  50,
+	AttackSpeed: 1.2,
+	CritChance:  8.0,
+	Accuracy:    90,
+	Range:       20,
+	ReqStr:      25,
+	ReqDex:      15,
+	ReqInt:      5,
+	BuyPrice:    350,
+	SellPrice:   50,
+}
+
 var AllWeapons = []Weapon{
-	RustyClub, RustyDagger, RustyStaff, Broadsword,
+	RustyClub, RustyDagger, RustyStaff, Broadsword, Spear,
 }
 
 //picks a random weapon from the list

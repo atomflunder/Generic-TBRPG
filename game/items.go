@@ -51,6 +51,24 @@ var LargeHealingPotion = Item{
 	SellPrice:   20,
 }
 
+var GiantHealingPotion = Item{
+	Name:        "Giant Healing Potion",
+	Description: "Heals you for 100 HP",
+	Tag:         "Heal",
+	Rarity:      rarityRare,
+	BuyPrice:    350,
+	SellPrice:   50,
+}
+
+var FullHealingPotion = Item{
+	Name:        "Full Healing Potion",
+	Description: "Heals you fully",
+	Tag:         "Heal",
+	Rarity:      rarityEpic,
+	BuyPrice:    1000,
+	SellPrice:   150,
+}
+
 var SmallBomb = Item{
 	Name:        "Small Bomb",
 	Description: "Damages your enemy for 20 HP",
@@ -70,7 +88,7 @@ var LargeBomb = Item{
 }
 
 var AllItems = []Item{
-	SmallHealingPotion, LargeHealingPotion, SmallBomb, LargeBomb,
+	SmallHealingPotion, LargeHealingPotion, GiantHealingPotion, FullHealingPotion, SmallBomb, LargeBomb,
 }
 
 //adds an item to your character
@@ -217,7 +235,12 @@ func HealingItem(c *Character, i Item) {
 		c.Heal(20)
 	case "Large Healing Potion":
 		c.Heal(50)
+	case "Giant Healing Potion":
+		c.Heal(100)
+	case "Full Healing Potion":
+		c.Heal(-1)
 	}
+
 }
 
 //the logic for damage items
