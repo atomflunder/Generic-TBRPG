@@ -105,14 +105,54 @@ func MatchItemIndex(p int, il []Item) *Item {
 
 //chooses an item for the player to use, used in the combat loop
 func ItemChoice(p *Character, e *Monster) {
+	if len(GetAllItems(p)) == 0 {
+		fmt.Println("You do not have any items in your inventory.")
+		p.Turn(e)
+		return
+	}
+
 	for {
 		fmt.Println(PrintItems(GetAllItems(p)) + "\nWhich item do you want to use?")
 		i := MatchItemIndex(utils.StringToInt(utils.GetUserInput()), GetAllItems(p))
 		if i != nil {
 			i.Use(p, e)
 			break
+		} else {
+			fmt.Println("Invalid input. Please try again.")
 		}
 	}
+}
+
+//chooses an item for the player to use in the menu
+func MenuItemChoice(c *Character) {
+	if len(GetAllItems(c)) == 0 {
+		fmt.Println("You do not have any items in your inventory.")
+		return
+	}
+
+	fmt.Println(PrintItems(GetAllItems(c)) + "\nWhich item do you want to use? Or type exit to exit.")
+
+	inp := utils.GetUserInput()
+
+	if strings.ToLower(inp) == "exit" {
+		return
+	} else {
+		i := MatchItemIndex(utils.StringToInt(inp), GetAllItems(c))
+
+		if i != nil {
+			if i.Tag == "Heal" {
+				HealingItem(c, *i)
+				i.Remove(c)
+
+			} else {
+				fmt.Println("You cannot use this item here!")
+
+			}
+		} else {
+			fmt.Println("Invalid input. Please try again.")
+		}
+	}
+
 }
 
 //removes an item

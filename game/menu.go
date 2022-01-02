@@ -9,12 +9,13 @@ import (
 //the main menu for the game
 func MainMenu() {
 	fmt.Println(`Welcome to the TBD game. What do you want to do?
-1) Fight with saved character
-2) Enter shop with saved character
-3) View Character
-4) Switch character
-5) Create a new character
-6) Delete a character
+1) Fight
+2) Enter shop
+3) Use Item
+4) View Character
+5) Switch character
+6) Create a new character
+7) Delete a character
 ...
 9) Exit Game`)
 
@@ -39,16 +40,24 @@ func MainMenu() {
 		if c == nil {
 			fmt.Println("You have no characters saved. Please create one first.")
 		} else {
+			MenuItemChoice(c)
+			c.Save()
+		}
+	case "4":
+		c := GetDefaultCharacter(GetAllCharacters())
+		if c == nil {
+			fmt.Println("You have no characters saved. Please create one first.")
+		} else {
 			fmt.Println(c.Info())
 		}
 
-	case "4":
-		SwitchCharacter(GetAllCharacters())
 	case "5":
+		SwitchCharacter(GetAllCharacters())
+	case "6":
 		c := CreateNewCharacter()
 		fmt.Println(c.Info())
 		c.Save()
-	case "6":
+	case "7":
 		fmt.Println("Which character do you want to delete?")
 		c := CharacterChoice()
 		c.Delete()
