@@ -157,7 +157,7 @@ func SwitchSpecificWeapon(c *Character, w Weapon) {
 	}
 }
 
-func PrintWeaponDetails(w Weapon) string {
+func (w Weapon) Info() string {
 	return `` + w.Name + `
 ` + w.Description + `
 Damage: 		` + fmt.Sprint(w.LowAttack) + `-` + fmt.Sprint(w.HighAttack) + `

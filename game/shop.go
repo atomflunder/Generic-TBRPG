@@ -37,13 +37,13 @@ func BuyItem(c *Character) {
 	fmt.Println("These are the items we have to offer. \n" + PrintItems(AllItems) + "\n\nType the number of the item you want to buy.")
 	i := MatchItemIndex(utils.StringToInt(utils.GetUserInput()), AllItems)
 	if i != nil {
-		if CanCharacterBuyItem(c, *i) {
+		if c.CanBuyItem(*i) {
 			fmt.Println(`Your current balance: ` + fmt.Sprint(c.Gold) + `
 Do you want to buy a ` + i.Name + ` (` + i.Description + `) for ` + fmt.Sprint(i.BuyPrice) + ` gold?
 Type y to confirm, or anything else to dismiss`)
 
 			if strings.ToLower(utils.GetUserInput()) == "y" {
-				AddItem(c, *i)
+				i.Add(c)
 				c.Gold -= i.BuyPrice
 				fmt.Println("You have bought a " + i.Name + " for " + fmt.Sprint(i.BuyPrice) + " gold. You have " + fmt.Sprint(c.Gold) + " gold left.")
 			} else {
@@ -57,7 +57,7 @@ Type y to confirm, or anything else to dismiss`)
 	} else {
 		fmt.Println("Invalid input. Please try again.")
 	}
-	SaveCharacter(c)
+	c.Save()
 }
 
 //sells an item from your inventory
@@ -70,7 +70,7 @@ Do you want to sell your ` + i.Name + ` (` + i.Description + `) for ` + fmt.Spri
 Type y to confirm, or anything else to dismiss`)
 
 		if strings.ToLower(utils.GetUserInput()) == "y" {
-			RemoveItem(c, *i)
+			i.Remove(c)
 			c.Gold += i.SellPrice
 			fmt.Println("You have sold a " + i.Name + " for " + fmt.Sprint(i.SellPrice) + " gold. You now have " + fmt.Sprint(c.Gold) + " gold.")
 		} else {
@@ -81,7 +81,7 @@ Type y to confirm, or anything else to dismiss`)
 		fmt.Println("Invalid input. Please try again.")
 	}
 
-	SaveCharacter(c)
+	c.Save()
 }
 
 //buys a weapon, then asks you to swap weapons
@@ -89,40 +89,46 @@ func BuyWeapon(c *Character) {
 	fmt.Println("These are the weapons we have to offer. \n" + PrintWeapons(AllWeapons) + "\n\nType the number of the item you want to buy.")
 	w := MatchWeaponIndex(utils.StringToInt(utils.GetUserInput()), AllWeapons)
 	if w != nil {
-		fmt.Println(`Your current balance: ` + fmt.Sprint(c.Gold) + `
+		if c.CanBuyWeapon(*w) {
+			fmt.Println(`Your current balance: ` + fmt.Sprint(c.Gold) + `
 Do you want to buy a this weapon for ` + fmt.Sprint(w.BuyPrice) + ` gold?
-
+			
 Weapon details:
-` + PrintWeaponDetails(*w) + `
-
+` + w.Info() + `
+			
 Type y to confirm, or anything else to dismiss`)
 
-		if strings.ToLower(utils.GetUserInput()) == "y" {
-			c.Gold -= w.BuyPrice
-			fmt.Println("You bought a " + w.Name + " for " + fmt.Sprint(w.BuyPrice) + " gold. You have " + fmt.Sprint(c.Gold) + " gold left.")
-			SwitchSpecificWeapon(c, *w)
+			if strings.ToLower(utils.GetUserInput()) == "y" {
+				c.Gold -= w.BuyPrice
+				fmt.Println("You bought a " + w.Name + " for " + fmt.Sprint(w.BuyPrice) + " gold. You have " + fmt.Sprint(c.Gold) + " gold left.")
+				SwitchSpecificWeapon(c, *w)
+			} else {
+				ShopMenu(c)
+			}
 		} else {
+			fmt.Println("Sorry, you only have " + fmt.Sprint(c.Gold) + " gold but a " + w.Name + " costs " + fmt.Sprint(w.BuyPrice) + " gold.")
 			ShopMenu(c)
 		}
+
 	} else {
 		fmt.Println("Invalid input. Please try again.")
 	}
 
-	SaveCharacter(c)
+	c.Save()
 }
 
 //not yet implemented. you can only carry your current weapon so you cant really sell it yet.
 func SellWeapon(c *Character) {
 
-	SaveCharacter(c)
+	c.Save()
 }
 
 //checks if the character has enough gold to buy an item
-func CanCharacterBuyItem(c *Character, i Item) bool {
+func (c *Character) CanBuyItem(i Item) bool {
 	return c.Gold >= i.BuyPrice
 }
 
 //checks if the character has enough gold to buy a weapon
-func CanCharacterBuyWeapon(c *Character, w Weapon) bool {
+func (c *Character) CanBuyWeapon(w Weapon) bool {
 	return c.Gold >= w.BuyPrice
 }

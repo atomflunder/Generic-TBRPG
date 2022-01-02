@@ -39,17 +39,19 @@ func MainMenu() {
 		if c == nil {
 			fmt.Println("You have no characters saved. Please create one first.")
 		} else {
-			fmt.Println(CharacterInfo(c))
+			fmt.Println(c.Info())
 		}
 
 	case "4":
 		SwitchCharacter(GetAllCharacters())
 	case "5":
 		c := CreateNewCharacter()
-		fmt.Println(CharacterInfo(c))
-		SaveCharacter(c)
+		fmt.Println(c.Info())
+		c.Save()
 	case "6":
-		DeleteCharacter()
+		fmt.Println("Which character do you want to delete?")
+		c := CharacterChoice()
+		c.Delete()
 	case "9":
 		utils.ExitGame()
 	default:

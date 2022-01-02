@@ -39,7 +39,7 @@ Please enter the name of your new character!`)
 	c.Level = 1
 	c.XP = 1
 	c.Gold = 0
-	AddItem(c, SmallHealingPotion)
+	SmallHealingPotion.Add(c)
 	c.Hardcore = true
 
 	for c.Class == "" {
@@ -96,13 +96,13 @@ Please enter the name of your new character!`)
 	}
 	SwitchAllCharactersOff(GetAllCharacters())
 	c.Default = true
-	SaveCharacter(c)
+	c.Save()
 
 	return c
 }
 
 //gets you all relevant character information in one readable string
-func CharacterInfo(c *Character) string {
+func (c *Character) Info() string {
 	//not sure why it is out of line here, in the command line it lines up
 	return `Character Info for ` + c.Name + `!
 Level: 			` + fmt.Sprint(c.Level) + `
@@ -133,7 +133,7 @@ func CharacterListToString(cl []Character) string {
 }
 
 //saves the character to a json file with the same name
-func SaveCharacter(c *Character) {
+func (c *Character) Save() {
 	file, err := json.MarshalIndent(c, "", "	")
 	if err != nil {
 		log.Fatal(err)
@@ -217,7 +217,7 @@ func SwitchCharacter(cl []Character) {
 	c := CharacterChoice()
 	SwitchAllCharactersOff(cl)
 	c.Default = true
-	SaveCharacter(c)
+	c.Save()
 
 	fmt.Println("Set " + c.Name + " to your default character.")
 }
@@ -226,27 +226,25 @@ func SwitchCharacter(cl []Character) {
 func SwitchAllCharactersOff(cl []Character) {
 	for _, c := range cl {
 		c.Default = false
-		SaveCharacter(&c)
+		c.Save()
 	}
 }
 
 //what happens when a character dies
-func CharacterDeath(c *Character) {
+func (c *Character) Death() {
 	if c.Hardcore {
-		fmt.Println("Since your character was in the hardcore league, it will now be deleted.\n\nCharacter Stats: \n" + CharacterInfo(c) + "\n\nRest in peace.")
+		fmt.Println("Since your character was in the hardcore league, it will now be deleted.\n\nCharacter Stats: \n" + c.Info() + "\n\nRest in peace.")
 		utils.DeleteFile(c.Name)
 	} else {
-		xp := ApplyXPPenalty(c)
+		xp := c.ApplyXPPenalty()
 		fmt.Println("Your character loses " + fmt.Sprint(xp) + " XP.")
 		c.Current_HP = c.Max_HP / 2
-		SaveCharacter(c)
+		c.Save()
 	}
 }
 
 //asks the user about character deletion
-func DeleteCharacter() {
-	fmt.Println("Which character do you want to delete?")
-	c := CharacterChoice()
+func (c *Character) Delete() {
 	if c != nil {
 		if c.Default {
 			fmt.Println("This is your default character! You cannot delete them, please switch to a different one first.")
@@ -272,5 +270,7 @@ func DeleteCharacter() {
 
 		}
 
+	} else {
+		fmt.Println("Invalid input. Please try again.")
 	}
 }

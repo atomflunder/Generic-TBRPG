@@ -88,12 +88,12 @@ var AllMonsters = []Monster{
 }
 
 //refreshes the max hp of a monster, basically spawning a new one
-func RefreshMonsterHP(m *Monster) {
+func (m *Monster) RefreshHP() {
 	m.Current_HP = m.Max_HP
 }
 
 //prints the info about a monster in a nice format
-func MonsterInfo(m *Monster) string {
+func (m *Monster) Info() string {
 	return `Monster Info for ` + m.Name + `
 Max HP: ` + fmt.Sprint(m.Max_HP) + `
 Current HP: ` + fmt.Sprint(m.Current_HP) + `

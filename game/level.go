@@ -46,13 +46,13 @@ func UpdateLevel(c *Character) {
 	l := CheckLevel(c)
 	if c.Level != l {
 		c.Level = l
-		LevelUp(c)
+		c.LevelUp()
 		fmt.Println("Congratulations, you have leveled up to level " + fmt.Sprint(l) + ". Your stats have increased and you healed to full health.")
 	}
 }
 
 //levels up a characters stats
-func LevelUp(c *Character) {
+func (c *Character) LevelUp() {
 	c.Max_HP += 10
 	c.Current_HP = c.Max_HP
 	switch c.Class {
@@ -72,7 +72,7 @@ func LevelUp(c *Character) {
 }
 
 //gets a 10% xp penalty of the current level, down to the minimum. returns the lost xp
-func ApplyXPPenalty(c *Character) int {
+func (c *Character) ApplyXPPenalty() int {
 	l := CheckLevel(c)
 	min := AllLevels[l-1]
 

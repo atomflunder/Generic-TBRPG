@@ -74,7 +74,7 @@ var AllItems = []Item{
 }
 
 //adds an item to your character
-func AddItem(c *Character, i Item) {
+func (i Item) Add(c *Character) {
 	c.Items = append(c.Items, i)
 }
 
@@ -84,7 +84,7 @@ func AddItems(c *Character, il []Item) {
 }
 
 //gets the item index, for deletion
-func GetItemIndex(c *Character, i Item) int {
+func (i Item) GetIndex(c *Character) int {
 	for x, r := range c.Items {
 		if r.Name == i.Name {
 			return x
@@ -109,15 +109,15 @@ func ItemChoice(p *Character, e *Monster) {
 		fmt.Println(PrintItems(GetAllItems(p)) + "\nWhich item do you want to use?")
 		i := MatchItemIndex(utils.StringToInt(utils.GetUserInput()), GetAllItems(p))
 		if i != nil {
-			UseItem(p, e, *i)
+			i.Use(p, e)
 			break
 		}
 	}
 }
 
 //removes an item
-func RemoveItem(c *Character, i Item) {
-	ind := GetItemIndex(c, i)
+func (i Item) Remove(c *Character) {
+	ind := i.GetIndex(c)
 	if ind != -1 {
 		c.Items = append(c.Items[:ind], c.Items[ind+1:]...)
 	}
@@ -159,14 +159,14 @@ func PrintItems(i []Item) string {
 }
 
 //uses an item
-func UseItem(c *Character, e *Monster, i Item) {
+func (i Item) Use(c *Character, e *Monster) {
 	switch i.Tag {
 	case "Heal":
 		HealingItem(c, i)
 	case "Damage":
 		DamageItem(c, e, i)
 	}
-	RemoveItem(c, i)
+	i.Remove(c)
 
 }
 
@@ -174,18 +174,18 @@ func UseItem(c *Character, e *Monster, i Item) {
 func HealingItem(c *Character, i Item) {
 	switch i.Name {
 	case "Small Healing Potion":
-		HealPlayer(20, c)
+		c.Heal(20)
 	case "Large Healing Potion":
-		HealPlayer(50, c)
+		c.Heal(50)
 	}
 }
 
 //the logic for damage items
-func DamageItem(c *Character, e *Monster, i Item) {
+func DamageItem(c *Character, m *Monster, i Item) {
 	switch i.Name {
 	case "Small Bomb":
-		ApplyItemDamageToEnemy(20, e, i)
+		m.ApplyItemDamage(20, i)
 	case "Large Bomb":
-		ApplyItemDamageToEnemy(50, e, i)
+		m.ApplyItemDamage(50, i)
 	}
 }
