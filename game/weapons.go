@@ -128,33 +128,38 @@ func PrintWeapons(wl []Weapon) string {
 
 //asks the player if they want to switch out weapons
 func SwitchWeaponFromList(c *Character, wl []Weapon) {
-	fmt.Println("Do you want to switch your current weapon to one of these dropped ones? Type y to confirm, or anything else to dismiss.")
-	if strings.ToLower(utils.GetUserInput()) == "y" {
-		if len(wl) > 1 {
+	if len(wl) > 1 {
+		fmt.Println("Do you want to switch your current weapon to one of these dropped ones? Type y to confirm or anything else to dismiss.")
+		if strings.ToLower(utils.GetUserInput()) == "y" {
 			for {
 				fmt.Println("Which of these weapons do you wanna choose? Type their number.")
 				w := MatchWeaponIndex(utils.StringToInt(utils.GetUserInput()), wl)
 				if w != nil {
-					c.Weapon = *w
-					fmt.Println("Switched your current weapon to " + w.Name + ". You leave behind your old one.")
+					w.Switch(c)
 					break
 				}
 			}
-		} else if len(wl) == 1 {
-			c.Weapon = wl[0]
-			fmt.Println("Switched your current weapon to " + wl[0].Name + ". You leave behind your old one.")
 		}
-
+	} else if len(wl) == 1 {
+		wl[0].Switch(c)
 	}
 }
 
 //asks the player if they want to switch out their weapon for a specific one, used in the shop
 func (w Weapon) Switch(c *Character) {
-	fmt.Println("Do you want to switch your current weapon to this one? Type y to confirm, or anything else to dismiss.")
-	if strings.ToLower(utils.GetUserInput()) == "y" {
-		c.Weapon = w
-		fmt.Println("Switched your current weapon to " + w.Name + ". You leave behind your old one.")
+	pass, missingStats := w.RequirementCheck(c)
+
+	if pass {
+		fmt.Println(w.Info())
+		fmt.Println("Are you sure you want to switch your current weapon to this one? Type y to confirm, or anything else to dismiss.")
+		if strings.ToLower(utils.GetUserInput()) == "y" {
+			c.Weapon = w
+			fmt.Println("Switched your current weapon to " + w.Name + ". You leave behind your old one.")
+		}
+	} else {
+		fmt.Println("Sorry, you cant wield this weapon!\n" + missingStats)
 	}
+
 }
 
 func (w Weapon) Info() string {
@@ -177,4 +182,22 @@ func MatchWeaponIndex(p int, wl []Weapon) *Weapon {
 		}
 	}
 	return nil
+}
+
+//determines if you meet the weapon stat requirements
+func (w Weapon) RequirementCheck(c *Character) (bool, string) {
+	var missingAttributes string
+
+	if c.Strength < w.ReqStr {
+		missingAttributes = missingAttributes + "Your Strength: " + fmt.Sprint(c.Strength) + "\nNeeded Strength: " + fmt.Sprint(w.ReqStr) + "\n"
+	}
+	if c.Dexterity < w.ReqDex {
+		missingAttributes = missingAttributes + "Your Dexterity: " + fmt.Sprint(c.Dexterity) + "\nNeeded Dexterity: " + fmt.Sprint(w.ReqDex) + "\n"
+	}
+
+	if c.Intelligence < w.ReqInt {
+		missingAttributes = missingAttributes + "Your Intelligence: " + fmt.Sprint(c.Intelligence) + "\nNeeded Intelligence: " + fmt.Sprint(w.ReqInt) + "\n"
+	}
+
+	return (c.Strength >= w.ReqStr) && (c.Dexterity >= w.ReqDex) && (c.Intelligence >= w.ReqInt), missingAttributes
 }

@@ -99,9 +99,15 @@ Weapon details:
 Type y to confirm, or anything else to dismiss`)
 
 			if strings.ToLower(utils.GetUserInput()) == "y" {
-				c.Gold -= w.BuyPrice
-				fmt.Println("You bought a " + w.Name + " for " + fmt.Sprint(w.BuyPrice) + " gold. You have " + fmt.Sprint(c.Gold) + " gold left.")
-				w.Switch(c)
+				pass, missingStats := w.RequirementCheck(c)
+				if pass {
+					w.Switch(c)
+					c.Gold -= w.BuyPrice
+					fmt.Println("You bought a " + w.Name + " for " + fmt.Sprint(w.BuyPrice) + " gold. You have " + fmt.Sprint(c.Gold) + " gold left.")
+				} else {
+					fmt.Println("Sorry, you cant wield this weapon!\n" + missingStats)
+				}
+
 			} else {
 				ShopMenu(c)
 			}
