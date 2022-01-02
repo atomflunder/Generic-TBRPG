@@ -14,8 +14,9 @@ func MainMenu() {
 3) Use Item
 4) View Character
 5) Switch character
-6) Create a new character
-7) Delete a character
+6) View Leaderboard
+7) Create a new character
+8) Delete a character
 ...
 9) Exit Game`)
 
@@ -54,10 +55,12 @@ func MainMenu() {
 	case "5":
 		SwitchCharacter(GetAllCharacters())
 	case "6":
+		fmt.Println(Leaderboard())
+	case "7":
 		c := CreateNewCharacter()
 		fmt.Println(c.Info())
 		c.Save()
-	case "7":
+	case "8":
 		fmt.Println("Which character do you want to delete?")
 		c := CharacterChoice()
 		c.Delete()

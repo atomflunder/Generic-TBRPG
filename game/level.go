@@ -1,6 +1,11 @@
 package game
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+
+	"github.com/phxenix-w/gotestgame/utils"
+)
 
 var (
 	Level1  = 1
@@ -90,4 +95,56 @@ func (c *Character) ApplyXPPenalty() int {
 	}
 	return lostXP
 
+}
+
+//displays a leaderboard, separated in softcore and hardcore
+func Leaderboard() string {
+	var sortedChars []Character
+	var xpboard string
+	var league string
+
+	fmt.Println(`Which leaderboard do you want to see?
+1) Softcore
+2) Hardcore
+3) Mixed`)
+
+	switch utils.GetUserInput() {
+	case "1":
+		for _, c := range GetAllCharacters() {
+			if !c.Hardcore {
+				sortedChars = append(sortedChars, c)
+			}
+		}
+	case "2":
+		for _, c := range GetAllCharacters() {
+			if c.Hardcore {
+				sortedChars = append(sortedChars, c)
+			}
+		}
+	case "3":
+		sortedChars = append(sortedChars, GetAllCharacters()...)
+	default:
+		fmt.Println("Invalid input. Please try again.")
+		return ""
+	}
+
+	if len(sortedChars) == 0 {
+		fmt.Println("Sorry, you have no characters in this league yet.")
+		return ""
+	}
+
+	sort.SliceStable(sortedChars, func(i, j int) bool {
+		return sortedChars[i].XP > sortedChars[j].XP
+	})
+
+	for place, char := range sortedChars {
+		if char.Hardcore {
+			league = "Hardcore"
+		} else {
+			league = "Softcore"
+		}
+		xpboard = xpboard + fmt.Sprint(place+1) + ") " + char.Name + " (" + char.Class + ", " + league + ")\nLevel: " + fmt.Sprint(char.Level) + "(XP: " + fmt.Sprint(char.XP) + ")\n\n"
+	}
+
+	return xpboard
 }
