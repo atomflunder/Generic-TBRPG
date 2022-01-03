@@ -28,7 +28,7 @@ type Weapon struct {
 var RustyClub = Weapon{
 	Name:        "Rusty Club",
 	Description: "Starter Weapon for the Barbarian.",
-	Rarity:      rarityCommon,
+	Rarity:      RarityCommon,
 	LowAttack:   15,
 	HighAttack:  40,
 	AttackSpeed: 1.2,
@@ -45,7 +45,7 @@ var RustyClub = Weapon{
 var RustyDagger = Weapon{
 	Name:        "Rusty Dagger",
 	Description: "Starter Weapon for the Rogue",
-	Rarity:      rarityCommon,
+	Rarity:      RarityCommon,
 	LowAttack:   5,
 	HighAttack:  30,
 	AttackSpeed: 1.7,
@@ -62,7 +62,7 @@ var RustyDagger = Weapon{
 var RustyStaff = Weapon{
 	Name:        "Rusty Staff",
 	Description: "Starter Weapon for the Mage",
-	Rarity:      rarityCommon,
+	Rarity:      RarityCommon,
 	LowAttack:   10,
 	HighAttack:  35,
 	AttackSpeed: 1.4,
@@ -79,7 +79,7 @@ var RustyStaff = Weapon{
 var Broadsword = Weapon{
 	Name:        "Broadsword",
 	Description: "A two-handed sword, very sharp and dangerous",
-	Rarity:      rarityUncommon,
+	Rarity:      RarityUncommon,
 	LowAttack:   25,
 	HighAttack:  50,
 	AttackSpeed: 1.5,
@@ -96,7 +96,7 @@ var Broadsword = Weapon{
 var Spear = Weapon{
 	Name:        "Spear",
 	Description: "Long range spear, great for poking people",
-	Rarity:      rarityUncommon,
+	Rarity:      RarityUncommon,
 	LowAttack:   35,
 	HighAttack:  50,
 	AttackSpeed: 1.2,

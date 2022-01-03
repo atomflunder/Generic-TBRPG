@@ -17,27 +17,11 @@ type Item struct {
 	SellPrice   int
 }
 
-type Rarity struct {
-	Common    float32
-	Uncommon  float32
-	Rare      float32
-	Epic      float32
-	Legendary float32
-}
-
-var (
-	rarityCommon    = Rarity{1, 0, 0, 0, 0}
-	rarityUncommon  = Rarity{0, 1, 0, 0, 0}
-	rarityRare      = Rarity{0, 0, 1, 0, 0}
-	rarityEpic      = Rarity{0, 0, 0, 1, 0}
-	rarityLegendary = Rarity{0, 0, 0, 0, 1}
-)
-
 var SmallHealingPotion = Item{
 	Name:        "Small Healing Potion",
 	Description: "Heals you for 20 HP",
 	Tag:         "Heal",
-	Rarity:      rarityCommon,
+	Rarity:      RarityCommon,
 	BuyPrice:    25,
 	SellPrice:   1,
 }
@@ -46,7 +30,7 @@ var LargeHealingPotion = Item{
 	Name:        "Large Healing Potion",
 	Description: "Heals you for 50 HP",
 	Tag:         "Heal",
-	Rarity:      rarityUncommon,
+	Rarity:      RarityUncommon,
 	BuyPrice:    120,
 	SellPrice:   20,
 }
@@ -55,7 +39,7 @@ var GiantHealingPotion = Item{
 	Name:        "Giant Healing Potion",
 	Description: "Heals you for 100 HP",
 	Tag:         "Heal",
-	Rarity:      rarityRare,
+	Rarity:      RarityRare,
 	BuyPrice:    350,
 	SellPrice:   50,
 }
@@ -64,7 +48,7 @@ var FullHealingPotion = Item{
 	Name:        "Full Healing Potion",
 	Description: "Heals you fully",
 	Tag:         "Heal",
-	Rarity:      rarityEpic,
+	Rarity:      RarityEpic,
 	BuyPrice:    1000,
 	SellPrice:   150,
 }
@@ -73,7 +57,7 @@ var SmallBomb = Item{
 	Name:        "Small Bomb",
 	Description: "Damages your enemy for 20 HP",
 	Tag:         "Damage",
-	Rarity:      rarityCommon,
+	Rarity:      RarityCommon,
 	BuyPrice:    25,
 	SellPrice:   1,
 }
@@ -82,7 +66,7 @@ var LargeBomb = Item{
 	Name:        "Large Bomb",
 	Description: "Damages your enemy for 50 HP",
 	Tag:         "Damage",
-	Rarity:      rarityUncommon,
+	Rarity:      RarityUncommon,
 	BuyPrice:    120,
 	SellPrice:   20,
 }

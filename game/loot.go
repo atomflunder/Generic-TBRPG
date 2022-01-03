@@ -31,27 +31,27 @@ func CalculateWeaponDrops(m *Monster) []Weapon {
 	n := utils.GetRandomNumber(100)
 
 	if float32(n) <= m.Weapon_Drops.Common {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityCommon))
+		w := PickRandomWeapon(GetWeaponsByRarity(RarityCommon))
 		weaponList = append(weaponList, w)
 	}
 
 	if float32(n) <= m.Weapon_Drops.Uncommon {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityUncommon))
+		w := PickRandomWeapon(GetWeaponsByRarity(RarityUncommon))
 		weaponList = append(weaponList, w)
 	}
 
 	if float32(n) <= m.Weapon_Drops.Rare {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityRare))
+		w := PickRandomWeapon(GetWeaponsByRarity(RarityRare))
 		weaponList = append(weaponList, w)
 	}
 
 	if float32(n) <= m.Weapon_Drops.Epic {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityEpic))
+		w := PickRandomWeapon(GetWeaponsByRarity(RarityEpic))
 		weaponList = append(weaponList, w)
 	}
 
 	if float32(n) <= m.Weapon_Drops.Legendary {
-		w := PickRandomWeapon(GetWeaponsByRarity(rarityLegendary))
+		w := PickRandomWeapon(GetWeaponsByRarity(RarityLegendary))
 		weaponList = append(weaponList, w)
 	}
 
@@ -65,27 +65,27 @@ func CalculateItemDrops(m *Monster) []Item {
 	n := utils.GetRandomNumber(100)
 
 	if float32(n) <= m.Item_Drops.Common {
-		i := PickRandomItem(GetItemsByRarity(rarityCommon))
+		i := PickRandomItem(GetItemsByRarity(RarityCommon))
 		itemList = append(itemList, i)
 	}
 
 	if float32(n) <= m.Item_Drops.Uncommon {
-		i := PickRandomItem(GetItemsByRarity(rarityUncommon))
+		i := PickRandomItem(GetItemsByRarity(RarityUncommon))
 		itemList = append(itemList, i)
 	}
 
 	if float32(n) <= m.Item_Drops.Rare {
-		i := PickRandomItem(GetItemsByRarity(rarityRare))
+		i := PickRandomItem(GetItemsByRarity(RarityRare))
 		itemList = append(itemList, i)
 	}
 
 	if float32(n) <= m.Item_Drops.Epic {
-		i := PickRandomItem(GetItemsByRarity(rarityEpic))
+		i := PickRandomItem(GetItemsByRarity(RarityEpic))
 		itemList = append(itemList, i)
 	}
 
 	if float32(n) <= m.Item_Drops.Legendary {
-		i := PickRandomItem(GetItemsByRarity(rarityLegendary))
+		i := PickRandomItem(GetItemsByRarity(RarityLegendary))
 		itemList = append(itemList, i)
 	}
 

@@ -42,7 +42,7 @@ var Zombie = Monster{
 	Gold_Drop_Max:  10,
 	Item_Drops:     Rarity{25, 5, 0, 0, 0},
 	Weapon_Drops:   Rarity{5, 0, 0, 0, 0},
-	Monster_Rarity: rarityCommon,
+	Monster_Rarity: RarityCommon,
 }
 
 var Skeleton = Monster{
@@ -61,7 +61,7 @@ var Skeleton = Monster{
 	Gold_Drop_Max:  15,
 	Item_Drops:     Rarity{30, 10, 5, 0, 0},
 	Weapon_Drops:   Rarity{10, 2, 0, 0, 0},
-	Monster_Rarity: rarityCommon,
+	Monster_Rarity: RarityCommon,
 }
 
 var Dwarf = Monster{
@@ -80,7 +80,7 @@ var Dwarf = Monster{
 	Gold_Drop_Max:  40,
 	Item_Drops:     Rarity{10, 2, 0, 0, 0},
 	Weapon_Drops:   Rarity{0, 0, 0, 0, 0},
-	Monster_Rarity: rarityCommon,
+	Monster_Rarity: RarityCommon,
 }
 
 var AllMonsters = []Monster{
