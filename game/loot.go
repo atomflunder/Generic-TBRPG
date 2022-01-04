@@ -22,6 +22,11 @@ func GetMonsterLoot(m *Monster, c *Character) {
 		fmt.Println("Congratulations, the monster you killed dropped these weapons: " + PrintWeapons(w))
 		SwitchWeaponFromList(c, w)
 	}
+	a := CalculateArtifactDrops(m)
+	if len(a) != 0 {
+		fmt.Println("Congratulations, the monster you killed dropped these artifacts: " + PrintArtifacts(a))
+		ActivateArtifacts(a, c)
+	}
 }
 
 //calculates the weapons that drop from a monster
@@ -90,6 +95,36 @@ func CalculateItemDrops(m *Monster) []Item {
 	}
 
 	return itemList
+}
+
+//calculates the artifacts that drop from a monster
+func CalculateArtifactDrops(m *Monster) []Artifact {
+	var artifactList []Artifact
+
+	n := utils.GetRandomNumber(100)
+
+	if float32(n) <= m.Artifact_Drops.Common {
+		a := PickRandomArtifact(GetArtifactsByRarity(RarityCommon))
+		artifactList = append(artifactList, a)
+	}
+	if float32(n) <= m.Artifact_Drops.Uncommon {
+		a := PickRandomArtifact(GetArtifactsByRarity(RarityUncommon))
+		artifactList = append(artifactList, a)
+	}
+	if float32(n) <= m.Artifact_Drops.Rare {
+		a := PickRandomArtifact(GetArtifactsByRarity(RarityRare))
+		artifactList = append(artifactList, a)
+	}
+	if float32(n) <= m.Artifact_Drops.Epic {
+		a := PickRandomArtifact(GetArtifactsByRarity(RarityEpic))
+		artifactList = append(artifactList, a)
+	}
+	if float32(n) <= m.Artifact_Drops.Legendary {
+		a := PickRandomArtifact(GetArtifactsByRarity(RarityLegendary))
+		artifactList = append(artifactList, a)
+	}
+
+	return artifactList
 }
 
 //calculates the amount of gold dropped by a monster

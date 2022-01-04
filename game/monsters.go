@@ -23,6 +23,7 @@ type Monster struct {
 	Gold_Drop_Max  int
 	Item_Drops     Rarity
 	Weapon_Drops   Rarity
+	Artifact_Drops Rarity
 	Monster_Rarity Rarity
 }
 
@@ -42,6 +43,7 @@ var Zombie = Monster{
 	Gold_Drop_Max:  10,
 	Item_Drops:     Rarity{25, 5, 0, 0, 0},
 	Weapon_Drops:   Rarity{5, 0, 0, 0, 0},
+	Artifact_Drops: Rarity{0, 0, 0, 0, 0},
 	Monster_Rarity: RarityCommon,
 }
 
@@ -61,6 +63,7 @@ var Skeleton = Monster{
 	Gold_Drop_Max:  15,
 	Item_Drops:     Rarity{30, 10, 5, 0, 0},
 	Weapon_Drops:   Rarity{10, 2, 0, 0, 0},
+	Artifact_Drops: Rarity{0, 0, 1, 0, 0},
 	Monster_Rarity: RarityCommon,
 }
 
@@ -80,6 +83,7 @@ var Dwarf = Monster{
 	Gold_Drop_Max:  40,
 	Item_Drops:     Rarity{10, 2, 0, 0, 0},
 	Weapon_Drops:   Rarity{0, 0, 0, 0, 0},
+	Artifact_Drops: Rarity{0, 0, 3, 0, 0},
 	Monster_Rarity: RarityCommon,
 }
 
