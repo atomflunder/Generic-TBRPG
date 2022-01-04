@@ -6,14 +6,6 @@ import (
 	"github.com/phxenix-w/gotestgame/utils"
 )
 
-//interface for player and monster, to be used later on
-type Fighter interface {
-	Turn()
-	RollDamage()
-	ApplyDamage()
-	Info() string
-}
-
 //the main combat loop
 func Combat(p *Character, e *Monster) {
 	e.RefreshHP()

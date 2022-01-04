@@ -1,5 +1,5 @@
 package utils
 
 var (
-	ProfileDirectory string = "./savedata/characters/"
+	DBDirectory string = "./savedata/"
 )

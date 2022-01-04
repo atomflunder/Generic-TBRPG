@@ -1,4 +1,0 @@
-# Ignore everything in this directory, except this file.
-*
-!.gitignore
-# I'm doing this so the directory shows up, but the profiles themselves not.

@@ -3,10 +3,9 @@ package game
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"strings"
 
+	"github.com/boltdb/bolt"
 	"github.com/phxenix-w/gotestgame/utils"
 )
 
@@ -34,7 +33,15 @@ func CreateNewCharacter() *Character {
 	fmt.Println(`Welcome to the Character Creation Tool!
 Please enter the name of your new character!`)
 
-	c.Name = utils.GetUserInput()
+	for c.Name == "" {
+		name := utils.GetUserInput()
+
+		if SearchCharacter(name, GetAllCharacters()) != nil {
+			fmt.Println("This name is already taken! Please enter a different one.")
+		} else {
+			c.Name = name
+		}
+	}
 
 	c.Level = 1
 	c.XP = 1
@@ -132,44 +139,48 @@ func CharacterListToString(cl []Character) string {
 	return charList
 }
 
-//saves the character to a json file with the same name
+//saves a character to the db
 func (c *Character) Save() {
-	file, err := json.MarshalIndent(c, "", "	")
+	encoded, err := json.Marshal(c)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = ioutil.WriteFile("./savedata/characters/"+c.Name+".json", file, 0644)
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	utils.SaveCharacterToDB([]byte(c.Name), encoded)
+
+}
+
+//deletes a character from the db
+func (c *Character) Delete() {
+	utils.DeleteCharacterFromDB([]byte(c.Name))
 }
 
 //gets all characters saved
 func GetAllCharacters() []Character {
 	var charList []Character
+	var char Character
 
-	files, err := ioutil.ReadDir("./savedata/characters/")
+	db := utils.OpenDB()
+	defer utils.CloseDB(db)
+
+	err := db.View(func(tx *bolt.Tx) error {
+		c := tx.Bucket([]byte("DB")).Bucket([]byte("Characters")).Cursor()
+
+		for k, v := c.First(); k != nil; k, v = c.Next() {
+			err := json.Unmarshal(v, &char)
+			if err != nil {
+				log.Fatal(err)
+			}
+			charList = append(charList, char)
+		}
+
+		return nil
+	})
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, f := range files {
-		if strings.HasSuffix(f.Name(), ".json") {
-			file, err := ioutil.ReadFile("./savedata/characters/" + f.Name())
-			if err != nil {
-				log.Fatal(err)
-			}
-			var char Character
-
-			err = json.Unmarshal(file, &char)
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			charList = append(charList, char)
-
-		}
-	}
 	return charList
 }
 
@@ -234,7 +245,7 @@ func SwitchAllCharactersOff(cl []Character) {
 func (c *Character) Death() {
 	if c.Hardcore {
 		fmt.Println("Since your character was in the hardcore league, it will now be deleted.\n\nCharacter Stats: \n" + c.Info() + "\n\nRest in peace.")
-		utils.DeleteFile(c.Name)
+		c.Delete()
 	} else {
 		xp := c.ApplyXPPenalty()
 		fmt.Println("Your character loses " + fmt.Sprint(xp) + " XP.")
@@ -244,7 +255,7 @@ func (c *Character) Death() {
 }
 
 //asks the user about character deletion
-func (c *Character) Delete() {
+func (c *Character) DeleteChoice() {
 	if c != nil {
 		if c.Default {
 			fmt.Println("This is your default character! You cannot delete them, please switch to a different one first.")
@@ -255,7 +266,7 @@ func (c *Character) Delete() {
 				fmt.Println("Are you sure you want to delete " + c.Name + " (Level" + fmt.Sprint(c.Level) + ")? y/n")
 				switch utils.GetUserInput() {
 				case "y":
-					utils.DeleteFile(c.Name)
+					c.Delete()
 					fmt.Println("Successfully deleted character " + c.Name)
 					o += 1
 				case "n":

@@ -63,7 +63,7 @@ func MainMenu() {
 	case "8":
 		fmt.Println("Which character do you want to delete?")
 		c := CharacterChoice()
-		c.Delete()
+		c.DeleteChoice()
 	case "9":
 		utils.ExitGame()
 	default:
