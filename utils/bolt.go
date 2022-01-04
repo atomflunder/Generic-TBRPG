@@ -51,6 +51,31 @@ func DeleteCharacterFromDB(k []byte) {
 	}
 }
 
+func GetAllCharactersFromDB() [][]byte {
+	var charList [][]byte
+
+	db := OpenDB()
+	defer CloseDB(db)
+
+	err := db.View(func(tx *bolt.Tx) error {
+		c := tx.Bucket([]byte("DB")).Bucket([]byte("Characters")).Cursor()
+
+		for k, v := c.First(); k != nil; k, v = c.Next() {
+			vc := make([]byte, len(v))
+			copy(vc, v)
+			charList = append(charList, vc)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return charList
+}
+
 func SetupDB() {
 	db := OpenDB()
 	defer CloseDB(db)

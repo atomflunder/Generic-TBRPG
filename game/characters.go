@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/boltdb/bolt"
 	"github.com/phxenix-w/gotestgame/utils"
 )
 
@@ -160,25 +159,14 @@ func GetAllCharacters() []Character {
 	var charList []Character
 	var char Character
 
-	db := utils.OpenDB()
-	defer utils.CloseDB(db)
+	allChars := utils.GetAllCharactersFromDB()
 
-	err := db.View(func(tx *bolt.Tx) error {
-		c := tx.Bucket([]byte("DB")).Bucket([]byte("Characters")).Cursor()
-
-		for k, v := c.First(); k != nil; k, v = c.Next() {
-			err := json.Unmarshal(v, &char)
-			if err != nil {
-				log.Fatal(err)
-			}
-			charList = append(charList, char)
+	for _, v := range allChars {
+		err := json.Unmarshal(v, &char)
+		if err != nil {
+			log.Fatal(err)
 		}
-
-		return nil
-	})
-
-	if err != nil {
-		log.Fatal(err)
+		charList = append(charList, char)
 	}
 
 	return charList
