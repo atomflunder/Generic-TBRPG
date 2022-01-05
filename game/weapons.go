@@ -11,6 +11,7 @@ import (
 type Weapon struct {
 	Name        string
 	Description string
+	Level       int
 	Rarity      Rarity
 	LowAttack   int
 	HighAttack  int
@@ -28,6 +29,7 @@ type Weapon struct {
 var RustyClub = Weapon{
 	Name:        "Rusty Club",
 	Description: "Starter Weapon for the Barbarian.",
+	Level:       1,
 	Rarity:      RarityCommon,
 	LowAttack:   15,
 	HighAttack:  40,
@@ -45,6 +47,7 @@ var RustyClub = Weapon{
 var RustyDagger = Weapon{
 	Name:        "Rusty Dagger",
 	Description: "Starter Weapon for the Rogue",
+	Level:       1,
 	Rarity:      RarityCommon,
 	LowAttack:   5,
 	HighAttack:  30,
@@ -62,6 +65,7 @@ var RustyDagger = Weapon{
 var RustyStaff = Weapon{
 	Name:        "Rusty Staff",
 	Description: "Starter Weapon for the Mage",
+	Level:       1,
 	Rarity:      RarityCommon,
 	LowAttack:   10,
 	HighAttack:  35,
@@ -79,6 +83,7 @@ var RustyStaff = Weapon{
 var Broadsword = Weapon{
 	Name:        "Broadsword",
 	Description: "A two-handed sword, very sharp and dangerous",
+	Level:       1,
 	Rarity:      RarityUncommon,
 	LowAttack:   25,
 	HighAttack:  50,
@@ -96,6 +101,7 @@ var Broadsword = Weapon{
 var Spear = Weapon{
 	Name:        "Spear",
 	Description: "Long range spear, great for poking people",
+	Level:       1,
 	Rarity:      RarityUncommon,
 	LowAttack:   35,
 	HighAttack:  50,
@@ -121,12 +127,12 @@ func PickRandomWeapon(wl []Weapon) Weapon {
 	return wl[n]
 }
 
-//gets every weapon with a specified rarity
-func GetWeaponsByRarity(r Rarity) []Weapon {
+//gets every weapon with a specified rarity and below a certain level
+func GetWeaponsByRarityAndLevel(r Rarity, m *Monster) []Weapon {
 	var weaponList []Weapon
 
 	for _, w := range AllWeapons {
-		if w.Rarity == r {
+		if w.Rarity == r && w.Level <= m.Level {
 			weaponList = append(weaponList, w)
 		}
 	}

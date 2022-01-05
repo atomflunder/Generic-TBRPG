@@ -36,27 +36,27 @@ func CalculateWeaponDrops(m *Monster) []Weapon {
 	n := utils.GetRandomNumber(100)
 
 	if float32(n) <= m.Weapon_Drops.Common {
-		w := PickRandomWeapon(GetWeaponsByRarity(RarityCommon))
+		w := PickRandomWeapon(GetWeaponsByRarityAndLevel(RarityCommon, m))
 		weaponList = append(weaponList, w)
 	}
 
 	if float32(n) <= m.Weapon_Drops.Uncommon {
-		w := PickRandomWeapon(GetWeaponsByRarity(RarityUncommon))
+		w := PickRandomWeapon(GetWeaponsByRarityAndLevel(RarityUncommon, m))
 		weaponList = append(weaponList, w)
 	}
 
 	if float32(n) <= m.Weapon_Drops.Rare {
-		w := PickRandomWeapon(GetWeaponsByRarity(RarityRare))
+		w := PickRandomWeapon(GetWeaponsByRarityAndLevel(RarityRare, m))
 		weaponList = append(weaponList, w)
 	}
 
 	if float32(n) <= m.Weapon_Drops.Epic {
-		w := PickRandomWeapon(GetWeaponsByRarity(RarityEpic))
+		w := PickRandomWeapon(GetWeaponsByRarityAndLevel(RarityEpic, m))
 		weaponList = append(weaponList, w)
 	}
 
 	if float32(n) <= m.Weapon_Drops.Legendary {
-		w := PickRandomWeapon(GetWeaponsByRarity(RarityLegendary))
+		w := PickRandomWeapon(GetWeaponsByRarityAndLevel(RarityLegendary, m))
 		weaponList = append(weaponList, w)
 	}
 

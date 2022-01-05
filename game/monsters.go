@@ -162,6 +162,7 @@ func (m *Monster) RefreshHP() {
 //prints the info about a monster in a nice format
 func (m *Monster) Info() string {
 	return `Monster Info for ` + m.Name + `
+Level: ` + fmt.Sprint(m.Level) + `
 Max HP: ` + fmt.Sprint(m.Max_HP) + `
 Current HP: ` + fmt.Sprint(m.Current_HP) + `
 Attack Values: ` + fmt.Sprint(m.LowAttack) + `-` + fmt.Sprint(m.HighAttack) + `
