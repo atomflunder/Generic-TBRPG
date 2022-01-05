@@ -11,19 +11,18 @@ type Stage struct {
 	Name     string
 	LevelReq int
 	Monsters []Monster
-	Boss     bool //placeholder
 }
 
 var Foothills = Stage{
 	Name:     "Foothills",
 	LevelReq: 1,
-	Monsters: []Monster{Zombie, Skeleton, Dwarf},
+	Monsters: []Monster{Zombie, Skeleton, Dwarf, Goblin, ZombieKing},
 }
 
 var OldBridge = Stage{
 	Name:     "Old Bridge",
 	LevelReq: 3,
-	Monsters: []Monster{Zombie, Skeleton, Dwarf},
+	Monsters: []Monster{Zombie, Skeleton, Dwarf, Goblin, SkeletonKing},
 }
 
 var AllStages = []Stage{
@@ -38,13 +37,9 @@ func StageMenu(c *Character) {
 		if c.Level >= s.LevelReq {
 			fmt.Println("You have entered " + s.Name)
 			for {
-				if utils.GetRandomNumber(100) <= 5 {
-					b := GetStageBoss(*s)
-					Combat(c, &b)
-				} else {
-					m := PickStageMonster(*s)
-					Combat(c, &m)
-				}
+				m := GetMonster(*s)
+				Combat(c, &m)
+
 				if c.Current_HP != 0 {
 					fmt.Println("Do you want to leave this zone? Type y to confirm or anything else to continue exploring.")
 					if strings.ToLower(utils.GetUserInput()) == "y" {
