@@ -38,12 +38,22 @@ func StageMenu(c *Character) {
 		if c.Level >= s.LevelReq {
 			fmt.Println("You have entered " + s.Name)
 			for {
-				m := PickStageMonster(*s)
-				Combat(c, &m)
-				fmt.Println("Do you want to leave this zone? Type y to confirm or anything else to continue exploring.")
-				if strings.ToLower(utils.GetUserInput()) == "y" {
+				if utils.GetRandomNumber(100) >= 5 {
+					b := GetStageBoss(*s)
+					Combat(c, &b)
+				} else {
+					m := PickStageMonster(*s)
+					Combat(c, &m)
+				}
+				if c.Current_HP != 0 {
+					fmt.Println("Do you want to leave this zone? Type y to confirm or anything else to continue exploring.")
+					if strings.ToLower(utils.GetUserInput()) == "y" {
+						break
+					}
+				} else {
 					break
 				}
+
 			}
 		} else {
 			fmt.Println("Your level does not match the level requirement of this zone. Please come back later.")
