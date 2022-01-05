@@ -9,7 +9,7 @@ import (
 //the main menu for the game
 func MainMenu() {
 	fmt.Println(`Welcome to the TBD game. What do you want to do?
-1) Fight
+1) Enter zone
 2) Enter shop
 3) Use Item
 4) View Character
@@ -26,8 +26,7 @@ func MainMenu() {
 		if c == nil {
 			fmt.Println("You have no characters saved. Please create one first.")
 		} else {
-			m := PickRandomMonster(AllMonsters)
-			Combat(c, &m)
+			StageMenu(c)
 		}
 	case "2":
 		c := GetDefaultCharacter(GetAllCharacters())
