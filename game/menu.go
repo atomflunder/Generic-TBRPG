@@ -3,7 +3,7 @@ package game
 import (
 	"fmt"
 
-	"github.com/phxenix-w/gotestgame/utils"
+	"github.com/phxenix-w/Generic-TBRPG/utils"
 )
 
 //the main menu for the game

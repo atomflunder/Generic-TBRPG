@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"strings"
 
-	"github.com/phxenix-w/gotestgame/utils"
+	"github.com/phxenix-w/Generic-TBRPG/utils"
 )
 
 type Weapon struct {

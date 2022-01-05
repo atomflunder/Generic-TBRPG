@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/phxenix-w/gotestgame/utils"
+	"github.com/phxenix-w/Generic-TBRPG/utils"
 )
 
 type Character struct {

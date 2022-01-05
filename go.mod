@@ -1,4 +1,4 @@
-module github.com/phxenix-w/gotestgame
+module github.com/phxenix-w/Generic-TBRPG
 
 go 1.17
 

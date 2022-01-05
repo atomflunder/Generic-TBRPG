@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/phxenix-w/gotestgame/utils"
+	"github.com/phxenix-w/Generic-TBRPG/utils"
 )
 
 //the main menu for the shop
