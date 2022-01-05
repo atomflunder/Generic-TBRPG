@@ -77,6 +77,10 @@ func GetAllCharactersFromDB() [][]byte {
 }
 
 func SetupDB() {
+	if !DirectoryCheck(DBDirectory) {
+		MakeDirectory(DBDirectory)
+	}
+
 	db := OpenDB()
 	defer CloseDB(db)
 

@@ -6,10 +6,6 @@ import (
 )
 
 func main() {
-	if !utils.DirectoryCheck(utils.DBDirectory) {
-		utils.MakeDirectory(utils.DBDirectory)
-	}
-
 	utils.SetupDB()
 
 	for {
