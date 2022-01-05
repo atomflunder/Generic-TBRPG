@@ -17,7 +17,7 @@ type Artifact struct {
 
 var AntiqueWhetstone = Artifact{
 	Name:        "Antique Whetstone",
-	Description: "Boosts your current weapon's damage permanently by 20%.",
+	Description: "Boosts your current weapon's damage permanently by 20%. Up to 100%",
 	Tag:         "Weapon",
 	Rarity:      RarityRare,
 }
@@ -48,8 +48,12 @@ func (a Artifact) Use(c *Character) {
 func (a Artifact) UseWeaponArtifact(c *Character) {
 	switch a.Name {
 	case "Antique Whetstone":
-		c.Weapon.LowAttack += int(float32(c.Weapon.LowAttack) * 0.2)
-		c.Weapon.HighAttack += int(float32(c.Weapon.HighAttack) * 0.2)
+		if c.Weapon.Quality < 100 {
+			c.Weapon.LowAttack += int(float32(c.Weapon.LowAttack) * 0.2)
+			c.Weapon.HighAttack += int(float32(c.Weapon.HighAttack) * 0.2)
+			c.Weapon.Quality += 20
+		}
+
 	}
 }
 

@@ -48,7 +48,7 @@ func MainMenu() {
 		if c == nil {
 			fmt.Println("You have no characters saved. Please create one first.")
 		} else {
-			fmt.Println(c.Info())
+			fmt.Println(c.Info() + "\n\nCurrently equipped weapon:\n" + c.Weapon.Info())
 		}
 
 	case "5":

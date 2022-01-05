@@ -63,7 +63,7 @@ func (c *Character) Turn(m *Monster) bool {
 	case "2":
 		ItemChoice(c, m)
 	case "3":
-		fmt.Println(c.Info())
+		fmt.Println(c.Info() + "\n\nCurrently equipped weapon:\n" + c.Weapon.Info())
 		c.Turn(m)
 	case "4":
 		fmt.Println(m.Info())
