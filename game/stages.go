@@ -38,7 +38,7 @@ func StageMenu(c *Character) {
 		if c.Level >= s.LevelReq {
 			fmt.Println("You have entered " + s.Name)
 			for {
-				if utils.GetRandomNumber(100) >= 5 {
+				if utils.GetRandomNumber(100) <= 5 {
 					b := GetStageBoss(*s)
 					Combat(c, &b)
 				} else {

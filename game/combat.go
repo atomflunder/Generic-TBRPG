@@ -14,7 +14,10 @@ func Combat(p *Character, e *Monster) {
 
 	for p.Current_HP != 0 && e.Current_HP != 0 {
 		if p.Weapon.Range >= e.Range {
-			p.Turn(e)
+			fightOver := p.Turn(e)
+			if fightOver {
+				break
+			}
 			if e.Current_HP == 0 {
 				break
 			}
@@ -24,7 +27,10 @@ func Combat(p *Character, e *Monster) {
 			if p.Current_HP == 0 {
 				break
 			}
-			p.Turn(e)
+			fightOver := p.Turn(e)
+			if fightOver {
+				break
+			}
 		}
 	}
 	if p.Current_HP > 0 && e.Current_HP == 0 {
@@ -36,17 +42,21 @@ func Combat(p *Character, e *Monster) {
 	} else if e.Current_HP > 0 && p.Current_HP == 0 {
 		fmt.Println("You lost the fight against " + e.Name + ". It has " + fmt.Sprint(e.Current_HP) + " HP left.")
 		p.Death()
+	} else {
+		p.Save()
 	}
 }
 
 //one turn for the player
-func (c *Character) Turn(m *Monster) {
+func (c *Character) Turn(m *Monster) bool {
 	fmt.Println(`It is your turn! What do you want to do?
 1) Attack with your equipped weapon
 2) Use Item
 3) View Character
 4) View Enemy
-5) Pass`)
+5) Pass
+...
+9) Run away`)
 	switch utils.GetUserInput() {
 	case "1":
 		c.RollDamage(m)
@@ -60,10 +70,15 @@ func (c *Character) Turn(m *Monster) {
 		c.Turn(m)
 	case "5":
 
+	case "9":
+		if c.RunAway(m) {
+			return true
+		}
 	default:
 		fmt.Println("Invalid input. Please try again.")
 		c.Turn(m)
 	}
+	return false
 }
 
 //one turn for the enemy
@@ -163,4 +178,16 @@ func (c *Character) GainXP(e *Monster) int {
 	n := utils.GetRandomNumberInRange(e.XP_Min, e.XP_Max)
 	c.XP += n
 	return n
+}
+
+//calculates if you can run away from a monster
+func (c *Character) RunAway(m *Monster) bool {
+	if utils.GetRandomNumber(100) <= 10 {
+		fmt.Println("You try to run away from your fight with " + m.Name + "... but you fell and tripped.")
+		return false
+	} else {
+		fmt.Println("You ran away from your fight with " + m.Name + ".")
+		return true
+	}
+
 }
